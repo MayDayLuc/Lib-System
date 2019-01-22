@@ -144,6 +144,28 @@
                   </AnchorPane>
               </content>
             </Tab>
+            <Tab fx:id="penaltyTab" text="罚款单据">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView prefHeight="368.0" prefWidth="767.0">
+                          <columns>
+                            <TableColumn fx:id="penaltyBookIDCol" prefWidth="195.0" text="图书编号" />
+                            <TableColumn fx:id="penaltyBookNameCol" prefWidth="182.0" text="图书名" />
+                              <TableColumn fx:id="penaltyUserCol" prefWidth="143.0" text="用户名" />
+                              <TableColumn fx:id="penaltyDateCol" prefWidth="155.0" text="逾期天数" />
+                              <TableColumn fx:id="penaltyCol" prefWidth="91.0" text="罚款金额" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="penaltyButton" layoutX="651.0" layoutY="378.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="83.0" text="清除" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="379.0">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
          </tabs>
       </TabPane>
    </children>
