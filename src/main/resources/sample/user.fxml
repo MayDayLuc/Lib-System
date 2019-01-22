@@ -42,7 +42,17 @@
                               <TableColumn fx:id="endTimeCol" prefWidth="174.0" text="到期时间" />
                            </columns>
                         </TableView>
-                        <Button fx:id="readButton" layoutX="670.0" layoutY="379.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="83.0" text="阅读">
+                        <Button fx:id="readDOCButton" layoutX="454.0" layoutY="379.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="95.0" text="DOC阅读">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="readPDFButton" layoutX="556.0" layoutY="379.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="95.0" text="PDF阅读">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="readEPUBButton" layoutX="658.0" layoutY="379.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="95.0" text="EPUB阅读">
                            <font>
                               <Font size="16.0" />
                            </font>
