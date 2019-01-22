@@ -22,7 +22,7 @@
          <children>
             <ImageView fitHeight="742.0" fitWidth="1200.0">
                <image>
-                  <Image url="@../../../../pic/Login.png" />
+                  <Image url="@./Login.png" />
                </image>
             </ImageView>
             <Button fx:id="loginButton" layoutX="440.0" layoutY="501.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="124.0" text="登录">
