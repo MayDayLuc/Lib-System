@@ -6,7 +6,7 @@ In this assignment, TWO students need to form a group (pair) to jointly complete
 assignment. The score of each student on this assignment will be determined with the
 group performance by considering individual contribution to the work.
 
-### DEADLINE: 11:59pm on (Friday) January 27, 2019
+### DEADLINE: 11:59pm on (Sunday) January 27, 2019
 
 ### System Overview
 
