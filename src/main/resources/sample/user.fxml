@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="556.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.userController">
+   <children>
+      <ImageView fitHeight="556.0" fitWidth="900.0">
+         <image>
+            <Image url="@background.jpg" />
+         </image>
+      </ImageView>
+      <Label fx:id="idLabel" layoutX="680.0" layoutY="21.0" prefHeight="40.0" prefWidth="206.0" />
+      <Label layoutX="623.0" layoutY="21.0" prefHeight="40.0" prefWidth="57.0" text="用户：">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="userType" layoutX="489.0" layoutY="21.0" prefHeight="40.0" prefWidth="131.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TabPane fx:id="userTab" layoutX="66.0" layoutY="66.0" prefHeight="483.0" prefWidth="767.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="bookTab" text="借阅情况">
+            <content>
+              <AnchorPane fx:id="bookPane" minHeight="0.0" minWidth="0.0" prefHeight="446.0" prefWidth="767.0">
+                     <children>
+                        <TableView fx:id="bookTable" prefHeight="368.0" prefWidth="767.0">
+                           <columns>
+                              <TableColumn fx:id="bookIDCol" prefWidth="149.0" text="图书编号" />
+                              <TableColumn fx:id="bookNameCol" prefWidth="153.0" text="图书名" />
+                              <TableColumn fx:id="bookTypeCol" prefWidth="123.0" text="图书分类" />
+                              <TableColumn fx:id="startTimeCol" prefWidth="167.0" text="借阅时间" />
+                              <TableColumn fx:id="endTimeCol" prefWidth="174.0" text="到期时间" />
+                           </columns>
+                        </TableView>
+                        <Button fx:id="readButton" layoutX="670.0" layoutY="379.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="83.0" text="阅读">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="infoTab" text="个人信息">
+            <content>
+              <AnchorPane fx:id="infoPane" minHeight="0.0" minWidth="0.0" prefHeight="425.0" prefWidth="754.0">
+                     <children>
+                        <Button fx:id="saveButton" layoutX="634.0" layoutY="268.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="92.0" text="保存">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Label layoutX="405.0" layoutY="152.0" prefHeight="40.0" prefWidth="45.0" text="邮箱">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="mailField" layoutX="462.0" layoutY="152.0" prefHeight="40.0" prefWidth="259.0" />
+                        <Label layoutX="42.0" layoutY="152.0" prefHeight="40.0" prefWidth="71.0" text="手机号">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="phoneField" layoutX="119.0" layoutY="152.0" prefHeight="40.0" prefWidth="242.0" />
+                        <Label layoutX="405.0" layoutY="68.0" prefHeight="40.0" prefWidth="57.0" text="学院">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="collegeLabel" layoutX="462.0" layoutY="68.0" prefHeight="40.0" prefWidth="264.0" />
+                        <Label layoutX="53.0" layoutY="68.0" prefHeight="40.0" prefWidth="48.0" text="姓名">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="nameLabel" layoutX="120.0" layoutY="68.0" prefHeight="40.0" prefWidth="244.0" />
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </TabPane>
+   </children>
+</AnchorPane>
