@@ -25,9 +25,11 @@ public class LoginController extends BaseController implements Initializable {
     private Button cancelButton;
 
     private void login() {
-
         if(idField.getText().equals("161250106") && pswField.getText().equals("123")){
             Transformer.jump(stage, this, "user.fxml");
+        }
+        else if(idField.getText().equals("admin") && pswField.getText().equals("admin")){
+            Transformer.jump(stage, this, "admin.fxml");
         }
         else {
             new AlertBox().display("错误信息", "用户名或密码错误");
@@ -36,6 +38,12 @@ public class LoginController extends BaseController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        cancelButton.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent arg0) {
+                stage.close();
+            }
+        });
         loginButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent arg0) {
