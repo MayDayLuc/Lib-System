@@ -1,8 +1,9 @@
-package sample;
+package controller;
 
-import com.sun.javafx.robot.impl.FXRobotHelper;
+import controller.utils.AlertBox;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,7 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class loginController {
+public class LoginController extends BaseController implements Initializable {
     @FXML
     private TextField idField;
     @FXML
@@ -27,33 +28,34 @@ public class loginController {
     @FXML
     private Button cancelButton;
 
-    private void login() throws IOException {
-        FXRobotHelper.getStages().get(0).close();
-        Parent root=null;
-        FXMLLoader loader=null;
-        Stage stage=new Stage();
+    private void login() {
+
         if(idField.getText().equals("161250106") && pswField.getText().equals("123")){
-            loader=new FXMLLoader(getClass().getResource("user.fxml"));
-            root = loader.load();
+            stage.close();
+            Stage stage=new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("user.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ((BaseController) loader.getController()).setStage(stage);
             stage.setTitle("Library System");
             stage.setScene(new Scene(root, 900, 556));
             stage.show();
         }
         else {
-            new alertBox().display("错误信息", "用户名或密码错误");
+            new AlertBox().display("错误信息", "用户名或密码错误");
         }
     }
 
-    private void initialize(URL arg0, ResourceBundle arg1) {
-        // TODO Auto-generated method stub
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
         loginButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent arg0) {
-                try {
-                    login();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                login();
             }
         });
         idField.setOnKeyPressed(new LoginHandler());
@@ -61,15 +63,11 @@ public class loginController {
         loginButton.setOnKeyPressed(new LoginHandler());
     }
 
-    public class LoginHandler implements EventHandler<KeyEvent> {
+    private class LoginHandler implements EventHandler<KeyEvent> {
         @Override
         public void handle(KeyEvent arg0) {
-            if(arg0.getCode()==KeyCode.ENTER) {
-                try {
-                    login();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            if(arg0.getCode() == KeyCode.ENTER) {
+                login();
             }
         }
     }
