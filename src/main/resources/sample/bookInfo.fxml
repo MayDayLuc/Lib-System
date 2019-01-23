@@ -8,9 +8,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="482.0" prefWidth="596.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.bookInfoController">
+<AnchorPane prefHeight="653.0" prefWidth="597.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.bookInfoController">
    <children>
-      <ImageView fitHeight="491.0" fitWidth="600.0">
+      <ImageView fitHeight="674.0" fitWidth="602.0">
          <image>
             <Image url="@back.png" />
          </image>
@@ -50,15 +50,36 @@
          </font>
       </Label>
       <Label fx:id="borrowerLabel" layoutX="174.0" layoutY="347.0" prefHeight="30.0" prefWidth="328.0" />
-      <Button fx:id="confirmButton" layoutX="173.0" layoutY="402.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="84.0" text="确认">
+      <Button fx:id="confirmButton" layoutX="174.0" layoutY="579.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="84.0" text="确认">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="cancelButton" layoutX="344.0" layoutY="402.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="84.0" text="取消">
+      <Button fx:id="cancelButton" layoutX="345.0" layoutY="579.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="84.0" text="取消">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
+      <Label layoutX="94.0" layoutY="502.0" prefHeight="42.0" prefWidth="84.0" text="EPUB格式">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="98.0" layoutY="447.0" prefHeight="42.0" prefWidth="76.0" text="PDF格式">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="94.0" layoutY="394.0" prefHeight="42.0" prefWidth="84.0" text="DOC格式">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="DOCLabel" layoutX="181.0" layoutY="400.0" prefHeight="30.0" prefWidth="218.0" />
+      <Label fx:id="PDFLabel" layoutX="181.0" layoutY="453.0" prefHeight="30.0" prefWidth="218.0" />
+      <Label fx:id="EPUBLabel" layoutX="181.0" layoutY="508.0" prefHeight="30.0" prefWidth="218.0" />
+      <Button fx:id="addDOCButton" layoutX="422.0" layoutY="400.0" mnemonicParsing="false" text="选择文件" />
+      <Button fx:id="addPDFButton" layoutX="422.0" layoutY="453.0" mnemonicParsing="false" text="选择文件" />
+      <Button fx:id="addEPUBButton" layoutX="422.0" layoutY="508.0" mnemonicParsing="false" text="选择文件" />
    </children>
 </AnchorPane>
