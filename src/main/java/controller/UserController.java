@@ -22,6 +22,8 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+import static model.enums.UserType.transform;
+
 public class UserController extends BaseController implements Initializable {
     @FXML
     private Label userType;
@@ -91,7 +93,7 @@ public class UserController extends BaseController implements Initializable {
 
     @Override
     public void setUser(User user){
-        userType.setText(user.getType().toString());
+        userType.setText(transform(user.getType()));
         idLabel.setText(user.getId());
         nameLabel.setText(user.getName());
         //collegeLabel.setText(user.getCollege());
