@@ -16,17 +16,17 @@
             <Image url="@background.jpg" />
          </image>
       </ImageView>
-      <Label fx:id="idLabel" layoutX="680.0" layoutY="21.0" prefHeight="40.0" prefWidth="206.0" />
-      <Label layoutX="623.0" layoutY="21.0" prefHeight="40.0" prefWidth="57.0" text="用户：">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
       <Label fx:id="userType" layoutX="489.0" layoutY="21.0" prefHeight="40.0" prefWidth="131.0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
+      <Label layoutX="623.0" layoutY="21.0" prefHeight="40.0" prefWidth="57.0" text="用户：">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="idLabel" layoutX="680.0" layoutY="21.0" prefHeight="40.0" prefWidth="206.0" />
       <TabPane fx:id="userTab" layoutX="66.0" layoutY="66.0" prefHeight="483.0" prefWidth="767.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="bookTab" text="借阅情况">
@@ -65,35 +65,35 @@
             <content>
               <AnchorPane fx:id="infoPane" minHeight="0.0" minWidth="0.0" prefHeight="425.0" prefWidth="754.0">
                      <children>
-                        <Button fx:id="saveButton" layoutX="634.0" layoutY="268.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="92.0" text="保存">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Button>
-                        <Label layoutX="405.0" layoutY="152.0" prefHeight="40.0" prefWidth="45.0" text="邮箱">
-                           <font>
-                              <Font size="22.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="mailField" layoutX="462.0" layoutY="152.0" prefHeight="40.0" prefWidth="259.0" />
-                        <Label layoutX="42.0" layoutY="152.0" prefHeight="40.0" prefWidth="71.0" text="手机号">
-                           <font>
-                              <Font size="22.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="phoneField" layoutX="119.0" layoutY="152.0" prefHeight="40.0" prefWidth="242.0" />
-                        <Label layoutX="405.0" layoutY="68.0" prefHeight="40.0" prefWidth="57.0" text="学院">
-                           <font>
-                              <Font size="22.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="collegeLabel" layoutX="462.0" layoutY="68.0" prefHeight="40.0" prefWidth="264.0" />
                         <Label layoutX="53.0" layoutY="68.0" prefHeight="40.0" prefWidth="48.0" text="姓名">
                            <font>
                               <Font size="22.0" />
                            </font>
                         </Label>
                         <Label fx:id="nameLabel" layoutX="120.0" layoutY="68.0" prefHeight="40.0" prefWidth="244.0" />
+                        <Label layoutX="405.0" layoutY="68.0" prefHeight="40.0" prefWidth="57.0" text="学院">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="collegeLabel" layoutX="462.0" layoutY="68.0" prefHeight="40.0" prefWidth="264.0" />
+                        <Label layoutX="42.0" layoutY="152.0" prefHeight="40.0" prefWidth="71.0" text="手机号">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="phoneField" layoutX="119.0" layoutY="152.0" prefHeight="40.0" prefWidth="242.0" />
+                        <Label layoutX="405.0" layoutY="152.0" prefHeight="40.0" prefWidth="45.0" text="邮箱">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="mailField" layoutX="462.0" layoutY="152.0" prefHeight="40.0" prefWidth="259.0" />
+                        <Button fx:id="saveButton" layoutX="634.0" layoutY="268.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="92.0" text="保存">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
                      </children>
                      <cursor>
                         <Cursor fx:constant="DEFAULT" />

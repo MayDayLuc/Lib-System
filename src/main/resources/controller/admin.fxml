@@ -34,7 +34,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="bookTable1" prefHeight="368.0" prefWidth="767.0">
+                        <TableView fx:id="userTable" prefHeight="368.0" prefWidth="767.0">
                            <columns>
                               <TableColumn fx:id="userIDCol" prefWidth="165.0" text="用户编号" />
                               <TableColumn fx:id="userNameCol" prefWidth="119.0" text="用户名" />
@@ -116,7 +116,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="bookTable2" prefHeight="368.0" prefWidth="767.0">
+                        <TableView fx:id="borrowTable" prefHeight="368.0" prefWidth="767.0">
                            <columns>
                               <TableColumn fx:id="borrowIDCol" prefWidth="149.0" text="图书编号" />
                               <TableColumn fx:id="borrowNameCol" prefWidth="153.0" text="图书名" />
@@ -153,7 +153,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView prefHeight="368.0" prefWidth="767.0">
+                        <TableView fx:id="penaltyTable" prefHeight="368.0" prefWidth="767.0">
                           <columns>
                             <TableColumn fx:id="penaltyBookIDCol" prefWidth="195.0" text="图书编号" />
                             <TableColumn fx:id="penaltyBookNameCol" prefWidth="182.0" text="图书名" />

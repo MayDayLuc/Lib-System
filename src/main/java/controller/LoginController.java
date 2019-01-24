@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -21,7 +22,7 @@ public class LoginController extends BaseController implements Initializable {
     @FXML
     private TextField idField;
     @FXML
-    private TextField pswField;
+    private PasswordField pswField;
     @FXML
     private Button loginButton;
     @FXML
