@@ -45,6 +45,7 @@ public class BorrowInfo {
         this.book = book;
     }
 
+    @Column(name = "borrow_date")
     public LocalDate getBorrowDate() {
         return borrowDate;
     }
@@ -53,6 +54,7 @@ public class BorrowInfo {
         this.borrowDate = borrowDate;
     }
 
+    @Column(name = "due_date")
     public LocalDate getDueDate() {
         return dueDate;
     }

@@ -32,7 +32,7 @@ public class Book {
         this.name = name;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "cid")
     public BookCategory getCategory() {
         return category;
@@ -51,6 +51,7 @@ public class Book {
     }
 
     @OneToOne
+    @JoinColumn(name = "bid")
     public BorrowInfo getLastBorrow() {
         return lastBorrow;
     }

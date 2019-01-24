@@ -56,6 +56,7 @@ public class User {
         this.name = name;
     }
 
+    @Enumerated(value = EnumType.STRING)
     public UserType getType() {
         return type;
     }
