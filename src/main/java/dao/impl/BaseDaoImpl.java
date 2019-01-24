@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaQuery;
+import java.io.Serializable;
 import java.util.List;
 
 @Repository
@@ -24,7 +25,12 @@ public class BaseDaoImpl implements BaseDao {
     }
 
     @Override
-    public Object load(Class c, int id) {
+    public void update(Object bean) {
+        getSession().update(bean);
+    }
+
+    @Override
+    public Object load(Class c, Serializable id) {
         return getSession().get(c, id);
     }
 
