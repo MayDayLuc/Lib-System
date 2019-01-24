@@ -4,6 +4,8 @@ import dao.UserDao;
 import model.User;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     @Override
@@ -19,5 +21,10 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     @Override
     public void updateUser(User user) {
         update(user);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return getAllList(User.class);
     }
 }
