@@ -2,6 +2,7 @@ package controller;
 
 import controller.Table.userBookTable;
 import controller.utils.AlertBox;
+import factory.ServiceFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,6 +27,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import static model.enums.UserType.transform;
@@ -173,5 +175,7 @@ public class UserController extends BaseController implements Initializable {
         mailField.setText(user.getEmail());
 
     }
-    private ArrayList<Book> list;
+    private List<Book> list = ServiceFactory.getBorrowInfoService().getMyBorrowedBooks(idLabel.getText());
+
+
 }
