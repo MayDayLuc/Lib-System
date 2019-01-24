@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import model.User;
+import model.enums.UserType;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -31,7 +32,10 @@ public class LoginController extends BaseController implements Initializable {
         User user = ServiceFactory.getLoginService().login(idField.getText(), pswField.getText());
 
         if(user != null){
-            Transformer.jump(stage, this, "user.fxml", user);
+            if (user.getType() == UserType.ADMINISTRATOR)
+                Transformer.jump(stage, this, "admin.fxml", user);
+            else
+                Transformer.jump(stage, this, "user.fxml", user);
         }
         else {
             new AlertBox().display("错误信息", "用户名或密码错误");
