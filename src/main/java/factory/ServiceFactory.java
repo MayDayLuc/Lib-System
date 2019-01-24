@@ -4,6 +4,7 @@ import controller.mocks.BorrowInfoServiceMock;
 import controller.mocks.LoginServiceMock;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import service.BookInfoService;
 import service.BorrowInfoService;
 import service.LoginService;
 import service.UserInfoService;
@@ -26,5 +27,8 @@ public class ServiceFactory {
 
     public static BorrowInfoService getBorrowInfoService () {
         return (BorrowInfoService) applicationContext.getBean("borrowInfoService");
+    }
+    public static BookInfoService getBookInfoService (){
+        return (BookInfoService) applicationContext.getBean("bookInfoService");
     }
 }

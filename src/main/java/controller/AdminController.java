@@ -1,5 +1,6 @@
 package controller;
 
+import controller.table.BookTable;
 import controller.table.UserTable;
 import controller.utils.ChildController;
 import controller.utils.Parental;
@@ -13,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import model.Book;
 import model.User;
 
 import java.net.URL;
@@ -44,8 +46,70 @@ public class AdminController extends BaseController implements Initializable, Pa
     @FXML
     private TextField userSearchField;
 
+    @FXML
+    private TableView<BookTable> bookTable;
+    @FXML
+    private TableColumn<BookTable, Integer> bookIDCol;
+    @FXML
+    private TableColumn<BookTable, String> bookNameCol;
+    @FXML
+    private TableColumn<BookTable, String> bookTypeCol;
+    @FXML
+    private TableColumn<BookTable, String> startTimeCol;
+    @FXML
+    private TableColumn<BookTable, String> endTimeCol;
+    @FXML
+    private TableColumn<BookTable, String> borrowerCol;
+    @FXML
+    private TextField bookSearchField;
+    @FXML
+    private Button borrowBookButton;
+    @FXML
+    private Button backBookButton;
+    @FXML
+    private Button addBookButton;
+    @FXML
+    private Button editBookButton;
+
     private HashMap<UserTable, User> userMap = new HashMap<>();
     private ObservableList<UserTable> userData = FXCollections.observableArrayList();
+    private HashMap<BookTable, Book> bookMap = new HashMap<>();
+    private ObservableList<BookTable> bookData = FXCollections.observableArrayList();
+
+    private void refreshBookTab() {
+        bookMap.clear();
+        bookData.clear();
+        for (Book book: ServiceFactory.getBookInfoService().getAllBooks()) {
+            BookTable bt = new BookTable(book);
+            bookMap.put(bt, book);
+            bookData.add(bt);
+            bookTable.setItems(bookData);
+            bookIDCol.setCellValueFactory(new PropertyValueFactory<>("bookId"));
+            bookNameCol.setCellValueFactory(new PropertyValueFactory<>("bookName"));
+            bookTypeCol.setCellValueFactory(new PropertyValueFactory<>("bookCategory"));
+            startTimeCol.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
+            endTimeCol.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+            borrowerCol.setCellValueFactory(new PropertyValueFactory<>("borrower"));
+        }
+    }
+
+    private void initBookTab(){
+        refreshBookTab();
+        Parental parent = this;
+        addBookButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) { Transformer.generateChild(parent, "bookInfo.fxml", user); }
+        });
+        editBookButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Book toEdit = bookMap.get(bookTable.getSelectionModel().getSelectedItem());
+                ChildController childController = Transformer.generateChild(parent, "bookInfo.fxml", user);
+                childController.setEdit(toEdit);
+            }
+        });
+
+    }
 
     private void refreshUserTab() {
         userMap.clear();
@@ -86,6 +150,7 @@ public class AdminController extends BaseController implements Initializable, Pa
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initUserTab();
+        initBookTab();
     }
 
     @Override
@@ -97,5 +162,6 @@ public class AdminController extends BaseController implements Initializable, Pa
     @Override
     public void refresh() {
         refreshUserTab();
+        refreshBookTab();
     }
 }

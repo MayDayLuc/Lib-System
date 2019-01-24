@@ -15,7 +15,10 @@ public class Book implements Serializable {
 
     public Book() {
     }
-
+    public Book(String name, BookCategory category) {
+        this.name = name;
+        this.category = category;
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
