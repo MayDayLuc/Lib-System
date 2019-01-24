@@ -2,6 +2,7 @@ package controller;
 
 import controller.utils.AlertBox;
 import controller.utils.Transformer;
+import factory.ServiceFactory;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import model.User;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,8 +28,10 @@ public class LoginController extends BaseController implements Initializable {
 
     private void login() {
 
-        if(idField.getText().equals("161250106") && pswField.getText().equals("123")){
-            Transformer.jump(stage, this, "user.fxml");
+        User user = ServiceFactory.getLoginService().login(idField.getText(), pswField.getText());
+
+        if(user != null){
+            Transformer.jump(stage, this, "user.fxml", user);
         }
         else {
             new AlertBox().display("错误信息", "用户名或密码错误");

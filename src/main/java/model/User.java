@@ -7,7 +7,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user")
 public class User {
-    private int id;
+    private String id;
+    private String password;
     private String name;
     private UserType type;
     private String phone;
@@ -16,13 +17,30 @@ public class User {
     public User() {
     }
 
+    public User(String id, String password, String name, UserType type, String phone, String email) {
+        this.id = id;
+        this.password = password;
+        this.name = name;
+        this.type = type;
+        this.phone = phone;
+        this.email = email;
+    }
+
     @Id
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {
