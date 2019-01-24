@@ -23,6 +23,7 @@ public class BaseDaoImpl implements BaseDao {
     public void save(Object bean) {
         Session session = getSession();
         session.save(bean);
+        session.flush();
         session.clear();
     }
 
@@ -30,6 +31,7 @@ public class BaseDaoImpl implements BaseDao {
     public void update(Object bean) {
         Session session = getSession();
         session.update(bean);
+        session.flush();
         session.clear();
     }
 

@@ -6,14 +6,25 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import service.BorrowInfoService;
 import service.LoginService;
+import service.UserInfoService;
 
 public class ServiceFactory {
 
-    private static ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-
-    public static LoginService getLoginService () {
-        return new LoginServiceMock();
+    public static void setApplicationContext(ApplicationContext applicationContext) {
+        ServiceFactory.applicationContext = applicationContext;
     }
 
-    public static BorrowInfoService getBorrowInfoService () { return new BorrowInfoServiceMock(); }
+    private static ApplicationContext applicationContext;
+
+    public static LoginService getLoginService () {
+        return (LoginService) applicationContext.getBean("loginService");
+    }
+
+    public static UserInfoService getUserInfoService () {
+        return (UserInfoService) applicationContext.getBean("userInfoService");
+    }
+
+    public static BorrowInfoService getBorrowInfoService () {
+        return (BorrowInfoService) applicationContext.getBean("borrowInfoService");
+    }
 }

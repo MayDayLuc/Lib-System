@@ -5,6 +5,7 @@ import model.Book;
 import model.BorrowInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import service.BorrowInfoService;
 
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ public class BorrowInfoServiceImpl implements BorrowInfoService {
     private BorrowInfoDao borrowInfoDao;
 
     @Override
+    @Transactional
     public List<Book> getMyBorrowedBooks(String uid) {
         ArrayList<Book> books = new ArrayList<>();
         for (BorrowInfo borrowInfo: borrowInfoDao.getAllBorrowInfos()){

@@ -1,9 +1,11 @@
 import controller.BaseController;
+import factory.ServiceFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Main extends Application {
 
@@ -19,6 +21,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+        ServiceFactory.setApplicationContext(new ClassPathXmlApplicationContext("applicationContext.xml"));
         launch(args);
     }
 }

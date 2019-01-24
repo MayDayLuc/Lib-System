@@ -41,5 +41,7 @@
     <tx:annotation-driven/>
 
     <bean id="loginService" class="service.impl.LoginServiceImpl"/>
+    <bean id="userInfoService" class="service.impl.UserInfoServiceImpl"/>
     <bean id="bookInfoService" class="service.impl.BookInfoServiceImpl"/>
+    <bean id="borrowInfoService" class="service.impl.BorrowInfoServiceImpl"/>
 </beans>

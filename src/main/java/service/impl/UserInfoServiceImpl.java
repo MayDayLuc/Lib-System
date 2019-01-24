@@ -21,6 +21,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     public void updateUserInfo(User user) {
         user.setPassword(userDao.getPassword(user.getId()));
         userDao.updateUser(user);
+        user.setPassword(null);
     }
 
     @Override

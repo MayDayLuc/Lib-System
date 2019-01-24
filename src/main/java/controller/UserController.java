@@ -9,24 +9,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import model.Book;
-import model.BookCategory;
-import model.BorrowInfo;
 import model.User;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import static model.enums.UserType.transform;
@@ -76,83 +66,28 @@ public class UserController extends BaseController implements Initializable {
     @FXML
     private Button saveButton;
 
-    private HashMap<UserBookTable, Integer> map= new HashMap<>();
+    private HashMap<UserBookTable, Book> map= new HashMap<>();
+    private ObservableList<UserBookTable> data = FXCollections.observableArrayList();
 
     private void modifyInfo(){
-        if(phoneField.getText()==null||mailField.getText()==null){
-            new AlertBox().display("提示", "信息不能为空");
-        }
-        else{
-            user.setPhone(phoneField.getText());
-            user.setEmail(mailField.getText());
-            new AlertBox().display("提示", "保存成功");
-        }
+        user.setPhone(phoneField.getText());
+        user.setEmail(mailField.getText());
+        ServiceFactory.getUserInfoService().updateUserInfo(user);
+        new AlertBox().display("提示", "保存成功");
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        saveButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent arg0) {
-               modifyInfo();
-            }
-        });
-/*
-        readDOCButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent arg0) {
-                UserBookTable book = bookTable.getSelectionModel().getSelectedItem();
-                if (book == null){
-                    new AlertBox().display("错误信息", "请选择书");
-                    return;
-                }
-                int index=map.get(book);
-                Book b=list.get(index);
-                //打开阅读器
-            }
-        });
-
-        readPDFButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent arg0) {
-                UserBookTable book = bookTable.getSelectionModel().getSelectedItem();
-                if (book == null){
-                    new AlertBox().display("错误信息", "请选择书");
-                    return;
-                }
-                int index=map.get(book);
-                Book b=list.get(index);
-                //打开阅读器
-            }
-        });
-
-        readEPUBButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent arg0) {
-                UserBookTable book = bookTable.getSelectionModel().getSelectedItem();
-                if (book == null){
-                    new AlertBox().display("错误信息", "请选择书");
-                    return;
-                }
-                int index=map.get(book);
-                Book b=list.get(index);
-                //打开阅读器
-            }
-        });*/
-
     }
 
     public void refresh(){
-        list = ServiceFactory.getBorrowInfoService().getMyBorrowedBooks(idLabel.getText());
-        ObservableList<UserBookTable> data = FXCollections.observableArrayList();
+        data.clear();
         map.clear();
-        for(int i=0;i<list.size();i++) {
-            Book book=list.get(i);
+        for(Book book: ServiceFactory.getBorrowInfoService().getMyBorrowedBooks(user.getId())) {
 
             UserBookTable userbookTable = new UserBookTable(book);
             data.add(userbookTable);
-            map.put(userbookTable, i);
+            map.put(userbookTable, book);
             bookTable.setItems(data);
             bookIDCol.setCellValueFactory(new PropertyValueFactory<>("bookId"));
             bookNameCol.setCellValueFactory(new PropertyValueFactory<>("bookName"));
@@ -165,6 +100,7 @@ public class UserController extends BaseController implements Initializable {
 
     @Override
     public void setUser(User user){
+        super.setUser(user);
         userType.setText(transform(user.getType()));
         idLabel.setText(user.getId());
         nameLabel.setText(user.getName());
@@ -173,8 +109,17 @@ public class UserController extends BaseController implements Initializable {
         mailField.setText(user.getEmail());
 
         refresh();
+        setButtonFunction();
     }
-    private List<Book> list;
+
+    private void setButtonFunction() {
+        saveButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent arg0) {
+                modifyInfo();
+            }
+        });
+    }
 
 
 }
