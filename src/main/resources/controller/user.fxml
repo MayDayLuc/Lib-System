@@ -16,7 +16,7 @@
             <Image url="@background.jpg" />
          </image>
       </ImageView>
-      <Label fx:id="userType" layoutX="489.0" layoutY="21.0" prefHeight="40.0" prefWidth="131.0">
+      <Label fx:id="userType" layoutX="466.0" layoutY="21.0" prefHeight="40.0" prefWidth="154.0" textAlignment="RIGHT">
          <font>
             <Font size="18.0" />
          </font>
@@ -26,7 +26,10 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="idLabel" layoutX="680.0" layoutY="21.0" prefHeight="40.0" prefWidth="206.0" />
+      <Label fx:id="idLabel" layoutX="680.0" layoutY="21.0" prefHeight="40.0" prefWidth="206.0">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
       <TabPane fx:id="userTab" layoutX="66.0" layoutY="66.0" prefHeight="483.0" prefWidth="767.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="bookTab" text="借阅情况">
