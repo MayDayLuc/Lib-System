@@ -1,5 +1,6 @@
 package controller;
 
+import controller.Table.userBookTable;
 import controller.utils.AlertBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,7 +26,6 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static model.enums.UserType.transform;
@@ -42,7 +42,7 @@ public class UserController extends BaseController implements Initializable {
     @FXML
     private AnchorPane bookPane;
     @FXML
-    private TableView<Book> bookTable;
+    private TableView<userBookTable> bookTable;
     @FXML
     private TableColumn<Book, Integer> bookIDCol;
     @FXML
@@ -75,7 +75,7 @@ public class UserController extends BaseController implements Initializable {
     @FXML
     private Button saveButton;
 
-    private HashMap<Book,Integer> map=new HashMap<Book,Integer>();
+    private HashMap<userBookTable, Integer> map=new HashMap<userBookTable, Integer>();
 
     private void modifyInfo(){
         if(phoneField.getText()==null||mailField.getText()==null){
@@ -101,7 +101,7 @@ public class UserController extends BaseController implements Initializable {
         readDOCButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
-                Book book = bookTable.getSelectionModel().getSelectedItem();
+                userBookTable book = bookTable.getSelectionModel().getSelectedItem();
                 if (book == null){
                     new AlertBox().display("错误信息", "请选择书");
                     return;
@@ -115,7 +115,7 @@ public class UserController extends BaseController implements Initializable {
         readPDFButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
-                Book book = bookTable.getSelectionModel().getSelectedItem();
+                userBookTable book = bookTable.getSelectionModel().getSelectedItem();
                 if (book == null){
                     new AlertBox().display("错误信息", "请选择书");
                     return;
@@ -129,7 +129,7 @@ public class UserController extends BaseController implements Initializable {
         readEPUBButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
-                Book book = bookTable.getSelectionModel().getSelectedItem();
+                userBookTable book = bookTable.getSelectionModel().getSelectedItem();
                 if (book == null){
                     new AlertBox().display("错误信息", "请选择书");
                     return;
@@ -143,14 +143,14 @@ public class UserController extends BaseController implements Initializable {
     }
 
     public void refresh(){
-        ObservableList<Book> data = FXCollections.observableArrayList();
+        ObservableList<userBookTable> data = FXCollections.observableArrayList();
         map.clear();
         for(int i=0;i<list.size();i++) {
-            Book b=list.get(i);
-            if(b.getLastBorrow().getBorrower().equals(user.getName())){
-                Book book=new Book(b.getId(),b.getName(),b.getCategory(),b.getLastBorrow().getBorrowDate(),b.getLastBorrow().getDueDate());
-                data.add(book);
-                map.put(book, i);
+            Book book=list.get(i);
+            if(book.getLastBorrow().getBorrower().equals(user.getName())){
+                userBookTable userbookTable = new userBookTable(book);
+                data.add(userbookTable);
+                map.put(userbookTable, i);
                 bookTable.setItems(data);
                 bookIDCol.setCellValueFactory(new PropertyValueFactory<Book, Integer>("bookID"));
                 bookNameCol.setCellValueFactory(new PropertyValueFactory<Book, String>("bookName"));

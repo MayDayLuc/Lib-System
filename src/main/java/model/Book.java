@@ -12,10 +12,7 @@ public class Book {
     private boolean available;
     private BorrowInfo lastBorrow;
 
-    public Book(int i, String n, BookCategory c, LocalDate b, LocalDate d) {
-        id = i;
-        name = n;
-        category = c;
+    public Book() {
     }
 
     @Id
