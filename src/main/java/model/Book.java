@@ -1,6 +1,7 @@
 package model;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "book")
@@ -11,7 +12,10 @@ public class Book {
     private boolean available;
     private BorrowInfo lastBorrow;
 
-    public Book() {
+    public Book(int i, String n, BookCategory c, LocalDate b, LocalDate d) {
+        id = i;
+        name = n;
+        category = c;
     }
 
     @Id
