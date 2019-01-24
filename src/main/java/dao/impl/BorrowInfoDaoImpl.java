@@ -1,6 +1,6 @@
-package dao;
+package dao.impl;
 
-import dao.impl.BaseDaoImpl;
+import dao.BorrowInfoDao;
 import model.BorrowInfo;
 import org.springframework.stereotype.Repository;
 

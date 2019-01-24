@@ -26,6 +26,16 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     @Transactional
+    public boolean insertUser(User user) {
+        if (userDao.getUser(user.getId()) != null)
+            return false;
+        user.setPassword("123");
+        userDao.insertUser(user);
+        return true;
+    }
+
+    @Override
+    @Transactional
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         for (User user: userDao.getAllUsers()){

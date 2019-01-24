@@ -10,12 +10,17 @@ import java.util.List;
 public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     @Override
     public User getUser(String id) {
-        return (User) load(User.class, "161250105");
+        return (User) load(User.class, id);
     }
 
     @Override
     public String getPassword(String id) {
         return getUser(id).getPassword();
+    }
+
+    @Override
+    public void insertUser(User user) {
+        save(user);
     }
 
     @Override

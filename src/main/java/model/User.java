@@ -3,10 +3,11 @@ package model;
 import model.enums.UserType;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
     private String id;
     private String password;
     private String name;

@@ -3,11 +3,11 @@ import javafx.beans.property.*;
 import model.Book;
 
 public class UserBookTable {
-    public final IntegerProperty bookId;
-    public final StringProperty bookName;
-    public final StringProperty bookCategory;
-    public final StringProperty borrowDate;
-    public final StringProperty dueDate;
+    private final IntegerProperty bookId;
+    private final StringProperty bookName;
+    private final StringProperty bookCategory;
+    private final StringProperty borrowDate;
+    private final StringProperty dueDate;
 
     public UserBookTable(Book book){
         bookId = new SimpleIntegerProperty(book.getId());

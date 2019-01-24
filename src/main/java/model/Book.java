@@ -1,11 +1,12 @@
 package model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "book")
-public class Book {
+public class Book implements Serializable {
     private int id;
     private String name;
     private BookCategory category;

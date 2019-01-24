@@ -1,11 +1,12 @@
 package model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "borrow_info")
-public class BorrowInfo {
+public class BorrowInfo implements Serializable {
     private int id;
     private User borrower;
     private Book book;
