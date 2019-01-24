@@ -40,6 +40,12 @@ public class LoginController extends BaseController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        cancelButton.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent arg0) {
+                stage.close();
+            }
+        });
         loginButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent arg0) {
