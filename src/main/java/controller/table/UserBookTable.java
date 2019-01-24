@@ -1,15 +1,15 @@
-package controller.Table;
+package controller.table;
 import javafx.beans.property.*;
 import model.Book;
 
-public class userBookTable {
+public class UserBookTable {
     public final IntegerProperty bookId;
     public final StringProperty bookName;
     public final StringProperty bookCategory;
     public final StringProperty borrowDate;
     public final StringProperty dueDate;
 
-    public userBookTable(Book book){
+    public UserBookTable(Book book){
         bookId = new SimpleIntegerProperty(book.getId());
         bookName = new SimpleStringProperty(book.getName());
         bookCategory = new SimpleStringProperty(book.getCategory().getName());

@@ -1,6 +1,6 @@
 package controller;
 
-import controller.Table.userBookTable;
+import controller.table.UserBookTable;
 import controller.utils.AlertBox;
 import factory.ServiceFactory;
 import javafx.collections.FXCollections;
@@ -25,7 +25,6 @@ import model.User;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -44,17 +43,17 @@ public class UserController extends BaseController implements Initializable {
     @FXML
     private AnchorPane bookPane;
     @FXML
-    private TableView<userBookTable> bookTable;
+    private TableView<UserBookTable> bookTable;
     @FXML
-    private TableColumn<Book, Integer> bookIDCol;
+    private TableColumn<UserBookTable, Integer> bookIDCol;
     @FXML
-    private TableColumn<Book, String> bookNameCol;
+    private TableColumn<UserBookTable, String> bookNameCol;
     @FXML
-    private TableColumn<Book, BookCategory> bookTypeCol;
+    private TableColumn<UserBookTable, String> bookTypeCol;
     @FXML
-    private TableColumn<BorrowInfo, LocalDate> startTimeCol;
+    private TableColumn<UserBookTable, String> startTimeCol;
     @FXML
-    private TableColumn<BorrowInfo, LocalDate> endTimeCol;
+    private TableColumn<UserBookTable, String> endTimeCol;
     @FXML
     private Button readDOCButton;
     @FXML
@@ -77,7 +76,7 @@ public class UserController extends BaseController implements Initializable {
     @FXML
     private Button saveButton;
 
-    private HashMap<userBookTable, Integer> map=new HashMap<userBookTable, Integer>();
+    private HashMap<UserBookTable, Integer> map= new HashMap<>();
 
     private void modifyInfo(){
         if(phoneField.getText()==null||mailField.getText()==null){
@@ -92,18 +91,18 @@ public class UserController extends BaseController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        refresh();
+
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
                modifyInfo();
             }
         });
-
+/*
         readDOCButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
-                userBookTable book = bookTable.getSelectionModel().getSelectedItem();
+                UserBookTable book = bookTable.getSelectionModel().getSelectedItem();
                 if (book == null){
                     new AlertBox().display("错误信息", "请选择书");
                     return;
@@ -117,7 +116,7 @@ public class UserController extends BaseController implements Initializable {
         readPDFButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
-                userBookTable book = bookTable.getSelectionModel().getSelectedItem();
+                UserBookTable book = bookTable.getSelectionModel().getSelectedItem();
                 if (book == null){
                     new AlertBox().display("错误信息", "请选择书");
                     return;
@@ -131,7 +130,7 @@ public class UserController extends BaseController implements Initializable {
         readEPUBButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
-                userBookTable book = bookTable.getSelectionModel().getSelectedItem();
+                UserBookTable book = bookTable.getSelectionModel().getSelectedItem();
                 if (book == null){
                     new AlertBox().display("错误信息", "请选择书");
                     return;
@@ -140,27 +139,26 @@ public class UserController extends BaseController implements Initializable {
                 Book b=list.get(index);
                 //打开阅读器
             }
-        });
+        });*/
 
     }
 
     public void refresh(){
-        ObservableList<userBookTable> data = FXCollections.observableArrayList();
+        list = ServiceFactory.getBorrowInfoService().getMyBorrowedBooks(idLabel.getText());
+        ObservableList<UserBookTable> data = FXCollections.observableArrayList();
         map.clear();
         for(int i=0;i<list.size();i++) {
             Book book=list.get(i);
-            if(book.getLastBorrow().getBorrower().equals(user.getName())){
-                userBookTable userbookTable = new userBookTable(book);
-                data.add(userbookTable);
-                map.put(userbookTable, i);
-                bookTable.setItems(data);
-                bookIDCol.setCellValueFactory(new PropertyValueFactory<Book, Integer>("bookID"));
-                bookNameCol.setCellValueFactory(new PropertyValueFactory<Book, String>("bookName"));
-                bookTypeCol.setCellValueFactory(new PropertyValueFactory<Book, BookCategory>("bookCategory"));
-                startTimeCol.setCellValueFactory(new PropertyValueFactory<BorrowInfo, LocalDate>("startTime"));
-                endTimeCol.setCellValueFactory(new PropertyValueFactory<BorrowInfo, LocalDate>("endTime"));
 
-            }
+            UserBookTable userbookTable = new UserBookTable(book);
+            data.add(userbookTable);
+            map.put(userbookTable, i);
+            bookTable.setItems(data);
+            bookIDCol.setCellValueFactory(new PropertyValueFactory<>("bookId"));
+            bookNameCol.setCellValueFactory(new PropertyValueFactory<>("bookName"));
+            bookTypeCol.setCellValueFactory(new PropertyValueFactory<>("bookCategory"));
+            startTimeCol.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
+            endTimeCol.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
 
         }
     }
@@ -174,8 +172,9 @@ public class UserController extends BaseController implements Initializable {
         phoneField.setText(user.getPhone());
         mailField.setText(user.getEmail());
 
+        refresh();
     }
-    private List<Book> list = ServiceFactory.getBorrowInfoService().getMyBorrowedBooks(idLabel.getText());
+    private List<Book> list;
 
 
 }

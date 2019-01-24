@@ -25,6 +25,7 @@ public class BorrowInfoServiceMock implements BorrowInfoService {
         borrowInfo1.setBorrower(user1);
         borrowInfo1.setBorrowDate(LocalDate.now());
         borrowInfo1.setDueDate(LocalDate.of(2019,2,22));
+        book1.setLastBorrow(borrowInfo1);
 
         List<Book> BookList = new ArrayList<>();
         BookList.add(book1);
