@@ -98,7 +98,7 @@ public class UserController extends BaseController implements Initializable {
                modifyInfo();
             }
         });
-/*
+
         readDOCButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
@@ -139,7 +139,7 @@ public class UserController extends BaseController implements Initializable {
                 Book b=list.get(index);
                 //打开阅读器
             }
-        });*/
+        });
 
     }
 
@@ -149,7 +149,6 @@ public class UserController extends BaseController implements Initializable {
         map.clear();
         for(int i=0;i<list.size();i++) {
             Book book=list.get(i);
-
             UserBookTable userbookTable = new UserBookTable(book);
             data.add(userbookTable);
             map.put(userbookTable, i);
