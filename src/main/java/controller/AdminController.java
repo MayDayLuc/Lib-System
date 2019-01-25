@@ -2,6 +2,7 @@ package controller;
 
 import controller.table.BookTable;
 import controller.table.BorrowTable;
+import controller.table.UserBookTable;
 import controller.table.UserTable;
 import controller.utils.*;
 import factory.ServiceFactory;
@@ -16,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import model.Book;
 import model.BorrowInfo;
 import model.User;
+import service.BorrowService;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -86,12 +88,34 @@ public class AdminController extends BaseController implements Initializable, Pa
     @FXML
     private TextField borrowSearchField;
 
+    @FXML
+    private Label registerBorrowerLabel;
+    @FXML
+    private TableView<UserBookTable> registerTable;
+    @FXML
+    private TableColumn<UserBookTable, Integer> registerBookIDCol;
+    @FXML
+    private TableColumn<UserBookTable, String> registerBookNameCol;
+    @FXML
+    private TableColumn<UserBookTable, String> registerBookCategoryCol;
+    @FXML
+    private TableColumn<UserBookTable, String> registerBorrowDateCol;
+    @FXML
+    private TableColumn<UserBookTable, String> registerDueDateCol;
+    @FXML
+    private Button registerDeleteButton;
+
     private HashMap<UserTable, User> userMap = new HashMap<>();
     private ObservableList<UserTable> userData = FXCollections.observableArrayList();
+
     private HashMap<BookTable, Book> bookMap = new HashMap<>();
     private ObservableList<BookTable> bookData = FXCollections.observableArrayList();
+
     private HashMap<BorrowTable, BorrowInfo> borrowMap = new HashMap<>();
     private ObservableList<BorrowTable> borrowData = FXCollections.observableArrayList();
+
+    private HashMap<UserBookTable, Book> registerMap = new HashMap<>();
+    private ObservableList<UserBookTable> registerData = FXCollections.observableArrayList();
 
     private void refreshBorrowTab(){
         borrowMap.clear();
@@ -100,17 +124,16 @@ public class AdminController extends BaseController implements Initializable, Pa
             BorrowTable borrowT = new BorrowTable(borrowInfo);
             borrowMap.put(borrowT,borrowInfo);
             borrowData.add(borrowT);
-            borrowTable.setItems(borrowData);
-            borrowBookIDCol.setCellValueFactory(new PropertyValueFactory<>("borrowBookId"));
-            borrowBookNameCol.setCellValueFactory(new PropertyValueFactory<>("borrowBookName"));
-            borrowBorrowerCol.setCellValueFactory(new PropertyValueFactory<>("borrowBorrower"));
-            borrowBorrowDateCol.setCellValueFactory(new PropertyValueFactory<>("borrowBorrowDate"));
-            borrowDueDateCol.setCellValueFactory(new PropertyValueFactory<>("borrowDueDate"));
         }
     }
+
     private void initBorrowTab(){
-        refreshBorrowTab();
-        Parental parent = this;
+        borrowTable.setItems(borrowData);
+        borrowBookIDCol.setCellValueFactory(new PropertyValueFactory<>("borrowBookId"));
+        borrowBookNameCol.setCellValueFactory(new PropertyValueFactory<>("borrowBookName"));
+        borrowBorrowerCol.setCellValueFactory(new PropertyValueFactory<>("borrowBorrower"));
+        borrowBorrowDateCol.setCellValueFactory(new PropertyValueFactory<>("borrowBorrowDate"));
+        borrowDueDateCol.setCellValueFactory(new PropertyValueFactory<>("borrowDueDate"));
     }
 
 
@@ -121,18 +144,17 @@ public class AdminController extends BaseController implements Initializable, Pa
             BookTable bt = new BookTable(book);
             bookMap.put(bt, book);
             bookData.add(bt);
-            bookTable.setItems(bookData);
-            bookIDCol.setCellValueFactory(new PropertyValueFactory<>("bookId"));
-            bookNameCol.setCellValueFactory(new PropertyValueFactory<>("bookName"));
-            bookTypeCol.setCellValueFactory(new PropertyValueFactory<>("bookCategory"));
-            startTimeCol.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
-            endTimeCol.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
-            borrowerCol.setCellValueFactory(new PropertyValueFactory<>("borrower"));
         }
     }
 
     private void initBookTab(){
-        refreshBookTab();
+        bookTable.setItems(bookData);
+        bookIDCol.setCellValueFactory(new PropertyValueFactory<>("bookId"));
+        bookNameCol.setCellValueFactory(new PropertyValueFactory<>("bookName"));
+        bookTypeCol.setCellValueFactory(new PropertyValueFactory<>("bookCategory"));
+        startTimeCol.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
+        endTimeCol.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+        borrowerCol.setCellValueFactory(new PropertyValueFactory<>("borrower"));
         Parental parent = this;
         addBookButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -150,8 +172,22 @@ public class AdminController extends BaseController implements Initializable, Pa
                 childController.setEdit(toEdit);
             }
         });
-
+        borrowBookButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Book toBorrow = bookMap.get(bookTable.getSelectionModel().getSelectedItem());
+                if (toBorrow == null) {
+                    new AlertBox().display("错误信息", "请选择需要借阅的图书！");
+                    return;
+                }
+                borrowService.addBook(toBorrow);
+                UserBookTable ubt = new UserBookTable(toBorrow);
+                registerData.add(ubt);
+                registerMap.put(ubt, toBorrow);
+            }
+        });
     }
+
 
     private void refreshUserTab() {
         userMap.clear();
@@ -160,17 +196,16 @@ public class AdminController extends BaseController implements Initializable, Pa
             UserTable ut = new UserTable(user);
             userMap.put(ut, user);
             userData.add(ut);
-            userTable.setItems(userData);
-            userIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-            userNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-            userTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
-            phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
-            mailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
         }
     }
 
     private void initUserTab() {
-        refreshUserTab();
+        userTable.setItems(userData);
+        userIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        userNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        userTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        mailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
         Parental parent = this;
         addUserButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -190,14 +225,56 @@ public class AdminController extends BaseController implements Initializable, Pa
                 childController.setEdit(toEdit);
             }
         });
+        borrowUserButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                User selected = userMap.get(userTable.getSelectionModel().getSelectedItem());
+                if (selected == null) {
+                    new AlertBox().display("错误信息", "请选择需要借阅的用户！");
+                    return;
+                }
+                registerBorrowerLabel.setText(selected.getId());
+                borrowService.setUser(selected);
+            }
+        });
     }
 
 
+    private void refreshRegisterTab() {
+        registerMap.clear();
+        registerData.clear();
+    }
+
+    private void initRegisterTab() {
+        registerTable.setItems(registerData);
+        registerBookIDCol.setCellValueFactory(new PropertyValueFactory<>("bookId"));
+        registerBookNameCol.setCellValueFactory(new PropertyValueFactory<>("bookName"));
+        registerBookCategoryCol.setCellValueFactory(new PropertyValueFactory<>("bookCategory"));
+        registerBorrowDateCol.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
+        registerDueDateCol.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+        registerDeleteButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                UserBookTable ubt = registerTable.getSelectionModel().getSelectedItem();
+                Book toDelete = registerMap.get(ubt);
+                if (toDelete == null) {
+                    new AlertBox().display("错误信息", "请选择需要删除的图书！");
+                    return;
+                }
+                borrowService.remove(toDelete);
+                registerData.remove(ubt);
+            }
+        });
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        borrowService = ServiceFactory.getBorrowService();
+        refresh();
         initUserTab();
         initBookTab();
         initBorrowTab();
+        initRegisterTab();
     }
 
     @Override
@@ -205,6 +282,8 @@ public class AdminController extends BaseController implements Initializable, Pa
         super.setUser(user);
         adminLabel.setText(user.getId());
     }
+
+    private BorrowService borrowService;
 
     @Override
     public void refresh() {

@@ -2,6 +2,7 @@ package controller.table;
 
 import javafx.beans.property.*;
 import model.Book;
+import model.BorrowInfo;
 
 public class UserBookTable {
     private final IntegerProperty bookId;
@@ -14,8 +15,13 @@ public class UserBookTable {
         bookId = new SimpleIntegerProperty(book.getId());
         bookName = new SimpleStringProperty(book.getName());
         bookCategory = new SimpleStringProperty(book.getCategory().getName());
-        borrowDate = new SimpleStringProperty(book.getLastBorrow().getBorrowDate().toString());
-        dueDate = new SimpleStringProperty(book.getLastBorrow().getDueDate().toString());
+        borrowDate = new SimpleStringProperty();
+        dueDate = new SimpleStringProperty();
+        BorrowInfo bi = book.getLastBorrow();
+        if (bi != null) {
+            borrowDate.setValue(bi.getBorrowDate().toString());
+            dueDate.setValue(bi.getDueDate().toString());
+        }
     }
 
     public IntegerProperty bookIdProperty() {

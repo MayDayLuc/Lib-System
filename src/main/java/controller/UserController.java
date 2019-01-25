@@ -89,14 +89,13 @@ public class UserController extends BaseController implements Initializable {
             UserBookTable userbookTable = new UserBookTable(book);
             data.add(userbookTable);
             map.put(userbookTable, book);
-            bookTable.setItems(data);
-            bookIDCol.setCellValueFactory(new PropertyValueFactory<>("bookId"));
-            bookNameCol.setCellValueFactory(new PropertyValueFactory<>("bookName"));
-            bookTypeCol.setCellValueFactory(new PropertyValueFactory<>("bookCategory"));
-            startTimeCol.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
-            endTimeCol.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
-
         }
+        bookTable.setItems(data);
+        bookIDCol.setCellValueFactory(new PropertyValueFactory<>("bookId"));
+        bookNameCol.setCellValueFactory(new PropertyValueFactory<>("bookName"));
+        bookTypeCol.setCellValueFactory(new PropertyValueFactory<>("bookCategory"));
+        startTimeCol.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
+        endTimeCol.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
     }
 
     @Override

@@ -1,10 +1,7 @@
 package factory;
 
 import org.springframework.context.ApplicationContext;
-import service.BookInfoService;
-import service.BorrowInfoService;
-import service.LoginService;
-import service.UserInfoService;
+import service.*;
 
 public class ServiceFactory {
 
@@ -25,7 +22,12 @@ public class ServiceFactory {
     public static BorrowInfoService getBorrowInfoService () {
         return (BorrowInfoService) applicationContext.getBean("borrowInfoService");
     }
+
     public static BookInfoService getBookInfoService (){
         return (BookInfoService) applicationContext.getBean("bookInfoService");
+    }
+
+    public static BorrowService getBorrowService () {
+        return (BorrowService) applicationContext.getBean("borrowService");
     }
 }
