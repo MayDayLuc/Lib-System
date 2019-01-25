@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class BorrowInfoServiceMock implements BorrowInfoService {
     @Override
     public List<Book> getMyBorrowedBooks(String userId){
@@ -30,5 +31,10 @@ public class BorrowInfoServiceMock implements BorrowInfoService {
         List<Book> BookList = new ArrayList<>();
         BookList.add(book1);
         return  BookList;
+    }
+
+    @Override
+    public List<BorrowInfo> getAllBorrowedBooks() {
+        return null;
     }
 }

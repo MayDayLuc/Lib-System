@@ -21,11 +21,17 @@ public class BorrowInfoServiceImpl implements BorrowInfoService {
     @Transactional
     public List<Book> getMyBorrowedBooks(String uid) {
         ArrayList<Book> books = new ArrayList<>();
-        for (BorrowInfo borrowInfo: borrowInfoDao.getAllBorrowInfos()){
+        for (BorrowInfo borrowInfo: getAllBorrowedBooks()){
             if (borrowInfo.getBorrower().getId().equals(uid))
                 if (! borrowInfo.getDueDate().isBefore(LocalDate.now()))
                     books.add(borrowInfo.getBook());
         }
         return books;
+    }
+
+    @Override
+    @Transactional
+    public List<BorrowInfo> getAllBorrowedBooks() {
+        return borrowInfoDao.getAllBorrowInfos();
     }
 }
