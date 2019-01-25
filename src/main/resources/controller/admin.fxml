@@ -102,7 +102,7 @@
                               <Font size="16.0" />
                            </font>
                         </Button>
-                        <Label layoutX="14.0" layoutY="379.0" prefHeight="40.0" prefWidth="72.0" text="图书搜索">
+                        <Label layoutX="14.0" layoutY="379.0" prefHeight="40.0" prefWidth="72.0" text="图书搜索" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="379.0">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -112,17 +112,17 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="borrowTab" text="登记借阅">
+            <Tab fx:id="registerTab" text="登记借阅">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="borrowTable" prefHeight="368.0" prefWidth="767.0">
+                        <TableView fx:id="registerTable" prefHeight="368.0" prefWidth="767.0">
                            <columns>
-                              <TableColumn fx:id="borrowIDCol" prefWidth="149.0" text="图书编号" />
-                              <TableColumn fx:id="borrowNameCol" prefWidth="153.0" text="图书名" />
-                              <TableColumn fx:id="borrowTypeCol" prefWidth="123.0" text="图书分类" />
-                              <TableColumn fx:id="borrowStartTimeCol" prefWidth="167.0" text="借阅时间" />
-                              <TableColumn fx:id="borrowEndTimeCol" prefWidth="174.0" text="到期时间" />
+                              <TableColumn fx:id="registerBookIDCol" prefWidth="149.0" text="图书编号" />
+                              <TableColumn fx:id="registerBookNameCol" prefWidth="153.0" text="图书名" />
+                              <TableColumn fx:id="registerBookCategoryCol" prefWidth="123.0" text="图书分类" />
+                              <TableColumn fx:id="registerBorrowDateCol" prefWidth="167.0" text="借阅时间" />
+                              <TableColumn fx:id="registerDueDateCol" prefWidth="174.0" text="到期时间" />
                            </columns>
                         </TableView>
                         <Label layoutX="14.0" layoutY="379.0" prefHeight="40.0" prefWidth="98.0" text="借阅者ID：" AnchorPane.topAnchor="379.0">
@@ -130,17 +130,40 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Button fx:id="deleteBorrowButton" layoutX="570.0" layoutY="379.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="83.0" text="删除" AnchorPane.topAnchor="379.0">
+                        <Button fx:id="registerDeleteButton" layoutX="570.0" layoutY="379.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="83.0" text="删除" AnchorPane.topAnchor="379.0">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Button>
-                        <Button fx:id="borrowConfirmButton" layoutX="662.0" layoutY="379.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="83.0" text="确认">
+                        <Button fx:id="registerConfirmButton" layoutX="662.0" layoutY="379.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="83.0" text="确认">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Button>
-                        <Label fx:id="borrowerIDLabel" layoutX="112.0" layoutY="379.0" prefHeight="40.0" prefWidth="337.0">
+                        <Label fx:id="registerBorrowerLabel" layoutX="112.0" layoutY="379.0" prefHeight="40.0" prefWidth="337.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="borrowTab" text="借阅记录">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="borrowTable" prefHeight="369.0" prefWidth="767.0">
+                          <columns>
+                            <TableColumn fx:id="borrowBookIDCol" prefWidth="160.0" text="图书ID" />
+                            <TableColumn fx:id="borrowBookNameCol" minWidth="3.0" prefWidth="129.0" text="图书名" />
+                              <TableColumn fx:id="borrowBorrowerCol" prefWidth="106.0" text="借阅者" />
+                              <TableColumn fx:id="borrowBorrowDateCol" prefWidth="183.0" text="借阅时间" />
+                              <TableColumn fx:id="borrowDueDateCol" prefWidth="188.0" text="到期时间" />
+                          </columns>
+                        </TableView>
+                        <TextField fx:id="borrowSearchField" layoutX="100.0" layoutY="384.0" prefHeight="30.0" prefWidth="218.0" />
+                        <Label layoutX="27.0" layoutY="376.0" prefHeight="40.0" prefWidth="79.0" text="单据搜索" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="379.0">
                            <font>
                               <Font size="18.0" />
                            </font>
