@@ -2,7 +2,6 @@ package model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Set;
 
 @Entity
@@ -13,6 +12,10 @@ public class BookCategory implements Serializable {
     private Set<Book> books;
 
     public BookCategory() {
+    }
+
+    public BookCategory(String name) {
+        this.name = name;
     }
 
     @Id

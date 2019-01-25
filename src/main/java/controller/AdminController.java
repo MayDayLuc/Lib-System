@@ -2,9 +2,7 @@ package controller;
 
 import controller.table.BookTable;
 import controller.table.UserTable;
-import controller.utils.ChildController;
-import controller.utils.Parental;
-import controller.utils.Transformer;
+import controller.utils.*;
 import factory.ServiceFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -104,6 +102,10 @@ public class AdminController extends BaseController implements Initializable, Pa
             @Override
             public void handle(ActionEvent event) {
                 Book toEdit = bookMap.get(bookTable.getSelectionModel().getSelectedItem());
+                if (toEdit == null) {
+                    new AlertBox().display("错误信息", "请选择需要编辑的图书！");
+                    return;
+                }
                 ChildController childController = Transformer.generateChild(parent, "bookInfo.fxml", user);
                 childController.setEdit(toEdit);
             }
@@ -140,6 +142,10 @@ public class AdminController extends BaseController implements Initializable, Pa
             @Override
             public void handle(ActionEvent event) {
                 User toEdit = userMap.get(userTable.getSelectionModel().getSelectedItem());
+                if (toEdit == null) {
+                    new AlertBox().display("错误信息", "请选择需要编辑的用户！");
+                    return;
+                }
                 ChildController childController = Transformer.generateChild(parent, "userInfo.fxml", user);
                 childController.setEdit(toEdit);
             }

@@ -17,4 +17,9 @@ public class BookDaoIml extends BaseDaoImpl implements BookDao {
     public List<Book> getAllBooks() {
         return getAllList(Book.class);
     }
+
+    @Override
+    public void insertBook(Book book) {
+        save(book);
+    }
 }

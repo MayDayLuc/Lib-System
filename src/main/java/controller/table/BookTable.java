@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import model.Book;
+import model.BorrowInfo;
 
 public class BookTable {
     private final IntegerProperty bookId;
@@ -18,9 +19,16 @@ public class BookTable {
         bookId = new SimpleIntegerProperty(book.getId());
         bookName = new SimpleStringProperty(book.getName());
         bookCategory = new SimpleStringProperty(book.getCategory().getName());
-        borrowDate = new SimpleStringProperty(book.getLastBorrow().getBorrowDate().toString());
-        dueDate = new SimpleStringProperty(book.getLastBorrow().getDueDate().toString());
-        borrower = new SimpleStringProperty(book.getLastBorrow().getBorrower().getName());
+        borrowDate = new SimpleStringProperty();
+        dueDate = new SimpleStringProperty();
+        borrower = new SimpleStringProperty();
+        BorrowInfo bi = book.getLastBorrow();
+        if (bi != null) {
+            borrowDate.setValue(bi.getBorrowDate().toString());
+            dueDate.setValue(bi.getDueDate().toString());
+            borrower.setValue(bi.getBorrower().getId());
+        }
+
     }
 
     public IntegerProperty bookIdProperty(){

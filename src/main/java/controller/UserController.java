@@ -2,6 +2,7 @@ package controller;
 
 import controller.table.UserBookTable;
 import controller.utils.AlertBox;
+import controller.utils.BaseController;
 import factory.ServiceFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

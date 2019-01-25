@@ -1,6 +1,7 @@
 package controller;
 
 import controller.utils.AlertBox;
+import controller.utils.BaseController;
 import controller.utils.Transformer;
 import factory.ServiceFactory;
 import javafx.event.ActionEvent;

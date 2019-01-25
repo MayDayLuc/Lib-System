@@ -1,7 +1,5 @@
 package controller.utils;
 
-import controller.BaseController;
-
 import java.io.Serializable;
 
 public abstract class ChildController extends BaseController {

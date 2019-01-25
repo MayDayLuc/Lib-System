@@ -4,6 +4,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 @Entity
 @Table(name = "book")
 public class Book implements Serializable {
@@ -15,10 +18,12 @@ public class Book implements Serializable {
 
     public Book() {
     }
+
     public Book(String name, BookCategory category) {
         this.name = name;
         this.category = category;
     }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
@@ -37,7 +42,8 @@ public class Book implements Serializable {
         this.name = name;
     }
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne
+    @Cascade(value = {CascadeType.SAVE_UPDATE})
     @JoinColumn(name = "cid")
     public BookCategory getCategory() {
         return category;

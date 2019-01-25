@@ -1,4 +1,4 @@
-import controller.BaseController;
+import controller.utils.BaseController;
 import factory.ServiceFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

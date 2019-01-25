@@ -8,4 +8,6 @@ public interface BookDao {
     public void updateBook(Book book);
 
     public List<Book> getAllBooks();
+
+    public void insertBook(Book book);
 }
