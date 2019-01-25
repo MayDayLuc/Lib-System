@@ -1,6 +1,7 @@
 package controller;
 
 import controller.table.BookTable;
+import controller.table.BorrowTable;
 import controller.table.UserTable;
 import controller.utils.*;
 import factory.ServiceFactory;
@@ -13,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Book;
+import model.BorrowInfo;
 import model.User;
 
 import java.net.URL;
@@ -69,10 +71,48 @@ public class AdminController extends BaseController implements Initializable, Pa
     @FXML
     private Button editBookButton;
 
+    @FXML
+    private TableView<BorrowTable> borrowTable;
+    @FXML
+    private TableColumn<BorrowTable, Integer> borrowBookIDCol;
+    @FXML
+    private TableColumn<BorrowTable, String> borrowBookNameCol;
+    @FXML
+    private TableColumn<BorrowTable, String> borrowBorrowerCol;
+    @FXML
+    private TableColumn<BorrowTable, String> borrowBorrowDateCol;
+    @FXML
+    private TableColumn<BorrowTable, String> borrowDueDateCol;
+    @FXML
+    private TextField borrowSearchField;
+
     private HashMap<UserTable, User> userMap = new HashMap<>();
     private ObservableList<UserTable> userData = FXCollections.observableArrayList();
     private HashMap<BookTable, Book> bookMap = new HashMap<>();
     private ObservableList<BookTable> bookData = FXCollections.observableArrayList();
+    private HashMap<BorrowTable, BorrowInfo> borrowMap = new HashMap<>();
+    private ObservableList<BorrowTable> borrowData = FXCollections.observableArrayList();
+
+    private void refreshBorrowTab(){
+        borrowMap.clear();
+        borrowData.clear();
+        for (BorrowInfo borrowInfo: ServiceFactory.getBorrowInfoService().getAllBorrowedBooks()){
+            BorrowTable borrowT = new BorrowTable(borrowInfo);
+            borrowMap.put(borrowT,borrowInfo);
+            borrowData.add(borrowT);
+            borrowTable.setItems(borrowData);
+            borrowBookIDCol.setCellValueFactory(new PropertyValueFactory<>("borrowBookId"));
+            borrowBookNameCol.setCellValueFactory(new PropertyValueFactory<>("borrowBookName"));
+            borrowBorrowerCol.setCellValueFactory(new PropertyValueFactory<>("borrowBorrower"));
+            borrowBorrowDateCol.setCellValueFactory(new PropertyValueFactory<>("borrowBorrowDate"));
+            borrowDueDateCol.setCellValueFactory(new PropertyValueFactory<>("borrowDueDate"));
+        }
+    }
+    private void initBorrowTab(){
+        refreshBorrowTab();
+        Parental parent = this;
+    }
+
 
     private void refreshBookTab() {
         bookMap.clear();
@@ -157,6 +197,7 @@ public class AdminController extends BaseController implements Initializable, Pa
     public void initialize(URL location, ResourceBundle resources) {
         initUserTab();
         initBookTab();
+        initBorrowTab();
     }
 
     @Override
@@ -169,5 +210,6 @@ public class AdminController extends BaseController implements Initializable, Pa
     public void refresh() {
         refreshUserTab();
         refreshBookTab();
+        refreshBorrowTab();
     }
 }
