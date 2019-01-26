@@ -30,6 +30,11 @@ public class BorrowInfoServiceImpl implements BorrowInfoService {
     }
 
     @Override
+    public int getBorrowedCnt(String uid) {
+        return getMyBorrowedBooks(uid).size();
+    }
+
+    @Override
     @Transactional
     public List<BorrowInfo> getAllBorrowedBooks() {
         return borrowInfoDao.getAllBorrowInfos();

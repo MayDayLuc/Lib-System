@@ -34,6 +34,11 @@ public class BorrowInfoServiceMock implements BorrowInfoService {
     }
 
     @Override
+    public int getBorrowedCnt(String uid) {
+        return 0;
+    }
+
+    @Override
     public List<BorrowInfo> getAllBorrowedBooks() {
         return null;
     }

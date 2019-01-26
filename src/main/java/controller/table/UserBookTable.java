@@ -39,4 +39,18 @@ public class UserBookTable {
     public StringProperty dueDateProperty(){
         return dueDate;
     }
+
+    private boolean permission = true;
+
+    public void setPermission(boolean permission) {
+        if (! permission) {
+            this.borrowDate.set("没有权限");
+            this.dueDate.set(null);
+        }
+        else {
+            this.borrowDate.set(null);
+            this.dueDate.set(null);
+        }
+        this.permission = permission;
+    }
 }

@@ -46,6 +46,8 @@ public class LoginController extends BaseController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        idField.setText("admin");
+        pswField.setText("123");
         cancelButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent arg0) {

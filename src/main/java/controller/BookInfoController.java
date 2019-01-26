@@ -10,13 +10,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import model.Book;
 import model.BookCategory;
 import model.BorrowInfo;
+import model.enums.UserType;
 
 import java.io.Serializable;
 import java.net.URL;
@@ -44,11 +42,11 @@ public class BookInfoController extends ChildController implements Initializable
     @FXML
     private TextField newTypeField;
     @FXML
-    private Label startTimeLabel;
+    private CheckBox teacherCheckBox;
     @FXML
-    private Label endTimeLabel;
+    private CheckBox undergraduateCheckBox;
     @FXML
-    private Label borrowerLabel;
+    private CheckBox graduateCheckBox;
     @FXML
     private Button confirmButton;
     @FXML
@@ -111,7 +109,13 @@ public class BookInfoController extends ChildController implements Initializable
         getBookCategories();
 
         confirmButton.setOnAction(new AddHandler());
+
+        permissionCheckBoxes[0] = teacherCheckBox;
+        permissionCheckBoxes[1] = undergraduateCheckBox;
+        permissionCheckBoxes[2] = graduateCheckBox;
     }
+
+    private CheckBox[] permissionCheckBoxes = new CheckBox[UserType.getUserNum()];
 
     private Book edit;
 
@@ -122,15 +126,29 @@ public class BookInfoController extends ChildController implements Initializable
         BorrowInfo bi = edit.getLastBorrow();
         bookNameField.setText(edit.getName());
 
-        for (int i = 0; i < list.size(); i ++)
+        setPermission(edit.getPermission());
+
+        for (int i = 0; i < list.size(); i ++) {
             if (list.get(i).getId() == bc.getId())
                 bookTypeBox.getSelectionModel().select(i);
-        if (bi != null) {
-            startTimeLabel.setText(bi.getBorrowDate().toString());
-            endTimeLabel.setText(bi.getDueDate().toString());
-            borrowerLabel.setText(bi.getBorrower().getName());
         }
         confirmButton.setOnAction(new EditHandler());
+    }
+
+    private void setPermission(int permission) {
+        for (int i = 0; i < UserType.getUserNum(); i ++) {
+            if ((permission & (1 << i)) == 0)
+                permissionCheckBoxes[i].setSelected(false);
+        }
+    }
+
+    private int getPermission() {
+        int permission = 0;
+        for (int i = 0; i < UserType.getUserNum(); i ++) {
+            if (permissionCheckBoxes[i].isSelected())
+                permission |= (1 << i);
+        }
+        return permission;
     }
 
     private class EditHandler implements EventHandler<ActionEvent> {
@@ -140,6 +158,7 @@ public class BookInfoController extends ChildController implements Initializable
                 return;
             edit.setName(bookNameField.getText());
             edit.setCategory(list.get(bookTypeBox.getSelectionModel().getSelectedIndex()));
+            edit.setPermission(getPermission());
             ServiceFactory.getBookInfoService().updateBookInfo(edit);
             new AlertBox().display("提示", "编辑成功!");
             stage.close();
@@ -153,7 +172,8 @@ public class BookInfoController extends ChildController implements Initializable
             if (!checkField())
                 return;
             Book book1 = new Book(bookNameField.getText(),
-                    list.get(bookTypeBox.getSelectionModel().getSelectedIndex())
+                    list.get(bookTypeBox.getSelectionModel().getSelectedIndex()),
+                    getPermission()
                     );
             ServiceFactory.getBookInfoService().insertBook(book1);
             new AlertBox().display("提示", "添加成功!");

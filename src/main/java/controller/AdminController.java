@@ -18,10 +18,12 @@ import model.Book;
 import model.BorrowInfo;
 import model.User;
 import service.BorrowService;
+import service.enums.AddBookResult;
 
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 public class AdminController extends BaseController implements Initializable, Parental {
     @FXML
@@ -104,6 +106,8 @@ public class AdminController extends BaseController implements Initializable, Pa
     private TableColumn<UserBookTable, String> registerDueDateCol;
     @FXML
     private Button registerDeleteButton;
+    @FXML
+    private Label warningsLabel;
 
     private HashMap<UserTable, User> userMap = new HashMap<>();
     private HashMap<User, UserTable> reverseUserMap = new HashMap<>();
@@ -117,6 +121,7 @@ public class AdminController extends BaseController implements Initializable, Pa
     private ObservableList<BorrowTable> borrowData = FXCollections.observableArrayList();
 
     private HashMap<UserBookTable, Book> registerMap = new HashMap<>();
+    private HashMap<Book, UserBookTable> reverseRegisterMap = new HashMap<>();
     private ObservableList<UserBookTable> registerData = FXCollections.observableArrayList();
 
     private void refreshBorrowTab(){
@@ -186,7 +191,9 @@ public class AdminController extends BaseController implements Initializable, Pa
                     new AlertBox().display("错误信息", "请选择需要借阅的图书！");
                     return;
                 }
-                if (! borrowService.addBook(toBorrow)) {
+                AddBookResult result = borrowService.addBook(toBorrow);
+                checkNum();
+                if (result == AddBookResult.REPEAT) {
                     new AlertBox().display("错误信息", "已经借阅该图书！");
                     return;
                 }
@@ -194,6 +201,10 @@ public class AdminController extends BaseController implements Initializable, Pa
                 UserBookTable ubt = new UserBookTable(toBorrow);
                 registerData.add(ubt);
                 registerMap.put(ubt, toBorrow);
+                reverseRegisterMap.put(toBorrow, ubt);
+                if (result == AddBookResult.NO_PERMISSION) {
+                    ubt.setPermission(false);
+                }
             }
         });
     }
@@ -251,6 +262,8 @@ public class AdminController extends BaseController implements Initializable, Pa
                 registerBorrowerLabel.setText(selected.getId());
                 ut.idProperty().setValue("√" + ut.idProperty().get());
                 borrowService.setUser(selected);
+                checkNum();
+                checkPermissions();
             }
         });
     }
@@ -259,6 +272,7 @@ public class AdminController extends BaseController implements Initializable, Pa
     private void refreshRegisterTab() {
         registerMap.clear();
         registerData.clear();
+        borrowService = ServiceFactory.getBorrowService();
     }
 
     private void initRegisterTab() {
@@ -286,12 +300,35 @@ public class AdminController extends BaseController implements Initializable, Pa
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        borrowService = ServiceFactory.getBorrowService();
         refresh();
         initUserTab();
         initBookTab();
         initBorrowTab();
         initRegisterTab();
+    }
+
+    private void checkNum() {
+        if (borrowService.isOverdue()) {
+            warningsLabel.setText("请先归还超期图书");
+            return;
+        }
+        String warnings = "";
+        if (borrowService.isOverSingleLimit())
+            warnings += "超过单次借阅数量限制 ";
+        if (borrowService.isOverLimit())
+            warnings += "超过借阅总数量限制";
+        warningsLabel.setText(warnings);
+    }
+
+    private void checkPermissions() {
+        Set<Book> noPermissions = borrowService.getNoPermission();
+        for (UserBookTable ubt: registerData) {
+            Book book = registerMap.get(ubt);
+            if (noPermissions.contains(book))
+                ubt.setPermission(false);
+            else
+                ubt.setPermission(true);
+        }
     }
 
     @Override
@@ -307,5 +344,6 @@ public class AdminController extends BaseController implements Initializable, Pa
         refreshUserTab();
         refreshBookTab();
         refreshBorrowTab();
+        refreshRegisterTab();
     }
 }

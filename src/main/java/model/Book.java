@@ -15,13 +15,15 @@ public class Book implements Serializable {
     private BookCategory category;
     private boolean available;
     private BorrowInfo lastBorrow;
+    private int permission;
 
     public Book() {
     }
 
-    public Book(String name, BookCategory category) {
+    public Book(String name, BookCategory category, int permission) {
         this.name = name;
         this.category = category;
+        this.permission = permission;
     }
 
     @Id
@@ -69,5 +71,13 @@ public class Book implements Serializable {
 
     public void setLastBorrow(BorrowInfo lastBorrow) {
         this.lastBorrow = lastBorrow;
+    }
+
+    public int getPermission() {
+        return permission;
+    }
+
+    public void setPermission(int permission) {
+        this.permission = permission;
     }
 }
