@@ -6,9 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import service.BorrowService;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Scope("prototype")
@@ -24,12 +22,20 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public void addBook(Book book) {
+    public boolean addBook(Book book) {
+        if (books.contains(book))
+            return false;
         books.add(book);
+        return true;
     }
 
     @Override
     public void remove(Book book) {
         books.remove(book);
+    }
+
+    @Override
+    public User getUser() {
+        return user;
     }
 }

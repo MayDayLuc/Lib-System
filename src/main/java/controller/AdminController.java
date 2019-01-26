@@ -106,9 +106,11 @@ public class AdminController extends BaseController implements Initializable, Pa
     private Button registerDeleteButton;
 
     private HashMap<UserTable, User> userMap = new HashMap<>();
+    private HashMap<User, UserTable> reverseUserMap = new HashMap<>();
     private ObservableList<UserTable> userData = FXCollections.observableArrayList();
 
     private HashMap<BookTable, Book> bookMap = new HashMap<>();
+    private HashMap<Book, BookTable> reverseBookMap = new HashMap<>();
     private ObservableList<BookTable> bookData = FXCollections.observableArrayList();
 
     private HashMap<BorrowTable, BorrowInfo> borrowMap = new HashMap<>();
@@ -143,6 +145,7 @@ public class AdminController extends BaseController implements Initializable, Pa
         for (Book book: ServiceFactory.getBookInfoService().getAllBooks()) {
             BookTable bt = new BookTable(book);
             bookMap.put(bt, book);
+            reverseBookMap.put(book, bt);
             bookData.add(bt);
         }
     }
@@ -158,7 +161,9 @@ public class AdminController extends BaseController implements Initializable, Pa
         Parental parent = this;
         addBookButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event) { Transformer.generateChild(parent, "bookInfo.fxml", user); }
+            public void handle(ActionEvent event) {
+                Transformer.generateChild(parent, "bookInfo.fxml", user);
+            }
         });
         editBookButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -175,12 +180,17 @@ public class AdminController extends BaseController implements Initializable, Pa
         borrowBookButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Book toBorrow = bookMap.get(bookTable.getSelectionModel().getSelectedItem());
+                BookTable bt = bookTable.getSelectionModel().getSelectedItem();
+                Book toBorrow = bookMap.get(bt);
                 if (toBorrow == null) {
                     new AlertBox().display("错误信息", "请选择需要借阅的图书！");
                     return;
                 }
-                borrowService.addBook(toBorrow);
+                if (! borrowService.addBook(toBorrow)) {
+                    new AlertBox().display("错误信息", "已经借阅该图书！");
+                    return;
+                }
+                bt.borrowerProperty().setValue("√");
                 UserBookTable ubt = new UserBookTable(toBorrow);
                 registerData.add(ubt);
                 registerMap.put(ubt, toBorrow);
@@ -195,6 +205,7 @@ public class AdminController extends BaseController implements Initializable, Pa
         for (User user: ServiceFactory.getUserInfoService().getAllUsers()) {
             UserTable ut = new UserTable(user);
             userMap.put(ut, user);
+            reverseUserMap.put(user, ut);
             userData.add(ut);
         }
     }
@@ -228,12 +239,17 @@ public class AdminController extends BaseController implements Initializable, Pa
         borrowUserButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                User selected = userMap.get(userTable.getSelectionModel().getSelectedItem());
+                UserTable ut = userTable.getSelectionModel().getSelectedItem();
+                User selected = userMap.get(ut);
                 if (selected == null) {
                     new AlertBox().display("错误信息", "请选择需要借阅的用户！");
                     return;
                 }
+                UserTable lut = reverseUserMap.get(borrowService.getUser());
+                if (lut != null)
+                    lut.idProperty().setValue(lut.idProperty().get().substring(1));
                 registerBorrowerLabel.setText(selected.getId());
+                ut.idProperty().setValue("√" + ut.idProperty().get());
                 borrowService.setUser(selected);
             }
         });
@@ -262,6 +278,7 @@ public class AdminController extends BaseController implements Initializable, Pa
                     return;
                 }
                 borrowService.remove(toDelete);
+                reverseBookMap.get(toDelete).borrowerProperty().setValue("");
                 registerData.remove(ubt);
             }
         });

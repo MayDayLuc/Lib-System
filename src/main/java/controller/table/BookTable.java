@@ -7,6 +7,8 @@ import javafx.beans.property.StringProperty;
 import model.Book;
 import model.BorrowInfo;
 
+import java.time.LocalDate;
+
 public class BookTable {
     private final IntegerProperty bookId;
     private final StringProperty bookName;
@@ -25,8 +27,13 @@ public class BookTable {
         BorrowInfo bi = book.getLastBorrow();
         if (bi != null) {
             borrowDate.setValue(bi.getBorrowDate().toString());
-            dueDate.setValue(bi.getDueDate().toString());
-            borrower.setValue(bi.getBorrower().getId());
+
+            LocalDate due = bi.getDueDate();
+            dueDate.setValue(due.toString());
+            String bid = bi.getBorrower().getId();
+            if (due.isBefore(LocalDate.now()))
+                bid += "（以超期）";
+            borrower.setValue(bid);
         }
 
     }
