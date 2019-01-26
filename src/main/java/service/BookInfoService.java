@@ -13,4 +13,6 @@ public interface BookInfoService {
     public void updateBookInfo(Book book);
 
     public List<BookCategory> getAllBookCategories();
+
+    public List<Book> getKeyBooks(String key);
 }

@@ -10,4 +10,6 @@ public interface UserInfoService {
     public boolean insertUser(User user);
 
     public List<User> getAllUsers();
+
+    public List<User> getKeyUsers(String key);
 }

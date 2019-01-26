@@ -6,6 +6,8 @@ import controller.table.UserBookTable;
 import controller.table.UserTable;
 import controller.utils.*;
 import factory.ServiceFactory;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -147,6 +149,20 @@ public class AdminController extends BaseController implements Initializable, Pa
         borrowBorrowerCol.setCellValueFactory(new PropertyValueFactory<>("borrowBorrower"));
         borrowBorrowDateCol.setCellValueFactory(new PropertyValueFactory<>("borrowBorrowDate"));
         borrowDueDateCol.setCellValueFactory(new PropertyValueFactory<>("borrowDueDate"));
+
+        borrowSearchField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if(borrowSearchField.getText() != null){
+                    String borrowKey = borrowSearchField.getText();
+                    for(BorrowInfo borrowInfo: ServiceFactory.getBorrowInfoService().getKeyBorrow(borrowKey)){
+                        BorrowTable bt = new BorrowTable(borrowInfo);
+                        borrowMap.put(bt, borrowInfo);
+                        borrowData.add(bt);
+                    }
+                }
+            }
+        });
     }
 
 
@@ -219,6 +235,23 @@ public class AdminController extends BaseController implements Initializable, Pa
                 adminTab.getSelectionModel().select(registerTab);
             }
         });
+
+        bookSearchField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if(bookSearchField.getText() != null){
+                    String bookKey = bookSearchField.getText();
+                    bookMap.clear();
+                    bookData.clear();
+                    for (Book book: ServiceFactory.getBookInfoService().getKeyBooks(bookKey)) {
+                        BookTable bt = new BookTable(book);
+                        bookMap.put(bt, book);
+                        reverseBookMap.put(book, bt);
+                        bookData.add(bt);
+                    }
+                }
+            }
+        });
     }
 
 
@@ -287,6 +320,24 @@ public class AdminController extends BaseController implements Initializable, Pa
                 adminTab.getSelectionModel().select(registerTab);
             }
         });
+
+        userSearchField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if(userSearchField != null){
+                    String userKey = userSearchField.getText();
+                    userMap.clear();
+                    userData.clear();
+                    for (User user: ServiceFactory.getUserInfoService().getKeyUsers(userKey)) {
+                        UserTable ut = new UserTable(user);
+                        userMap.put(ut, user);
+                        reverseUserMap.put(user, ut);
+                        userData.add(ut);
+                    }
+                }
+            }
+        });
+
     }
 
 
