@@ -2,6 +2,8 @@ package service.utils;
 
 import model.enums.UserType;
 
+import java.time.LocalDate;
+
 public abstract class BorrowMethod {
     private int maxBorrowCnt;
     private int maxSingleBorrowCnt;
@@ -44,5 +46,17 @@ public abstract class BorrowMethod {
 
     public boolean isOverLimit() {
         return borrowCntThisTime + borrowedCnt > maxBorrowCnt;
+    }
+
+    public void add() {
+        borrowCntThisTime ++;
+    }
+
+    public void subtract() {
+        borrowCntThisTime --;
+    }
+
+    public LocalDate getDue() {
+        return LocalDate.now().plusDays(borrowDays);
     }
 }

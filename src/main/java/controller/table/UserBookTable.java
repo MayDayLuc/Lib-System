@@ -40,17 +40,15 @@ public class UserBookTable {
         return dueDate;
     }
 
-    private boolean permission = true;
-
     public void setPermission(boolean permission) {
         if (! permission) {
             this.borrowDate.set("没有权限");
             this.dueDate.set(null);
         }
-        else {
-            this.borrowDate.set(null);
-            this.dueDate.set(null);
-        }
-        this.permission = permission;
+    }
+
+    public void setBorrow(BorrowInfo info) {
+        borrowDate.setValue(info.getBorrowDate().toString());
+        dueDate.setValue(info.getDueDate().toString());
     }
 }

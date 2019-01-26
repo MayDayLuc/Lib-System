@@ -27,6 +27,7 @@ public class BookInfoServiceImpl implements BookInfoService {
     @Override
     @Transactional
     public void insertBook(Book book) {
+        book.setAvailable(true);
         bookDao.insertBook(book);
     }
 

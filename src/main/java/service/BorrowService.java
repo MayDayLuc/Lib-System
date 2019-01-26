@@ -7,7 +7,7 @@ import service.enums.AddBookResult;
 import java.util.Set;
 
 public interface BorrowService {
-    public void setUser(User user);
+    public boolean setUser(User user);
 
     public AddBookResult addBook(Book book);
 
@@ -22,4 +22,6 @@ public interface BorrowService {
     public boolean isOverLimit();
 
     public Set<Book> getNoPermission();
+
+    public void commit();
 }

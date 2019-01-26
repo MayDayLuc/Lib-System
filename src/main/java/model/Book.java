@@ -64,6 +64,7 @@ public class Book implements Serializable {
     }
 
     @OneToOne
+    @Cascade(value = {CascadeType.SAVE_UPDATE})
     @JoinColumn(name = "bid")
     public BorrowInfo getLastBorrow() {
         return lastBorrow;

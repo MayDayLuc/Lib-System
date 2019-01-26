@@ -28,6 +28,8 @@ import java.util.Set;
 public class AdminController extends BaseController implements Initializable, Parental {
     @FXML
     private Label adminLabel;
+    @FXML
+    private TabPane adminTab;
 
     @FXML
     private TableView<UserTable> userTable;
@@ -91,6 +93,8 @@ public class AdminController extends BaseController implements Initializable, Pa
     private TextField borrowSearchField;
 
     @FXML
+    private Tab registerTab;
+    @FXML
     private Label registerBorrowerLabel;
     @FXML
     private TableView<UserBookTable> registerTable;
@@ -108,6 +112,8 @@ public class AdminController extends BaseController implements Initializable, Pa
     private Button registerDeleteButton;
     @FXML
     private Label warningsLabel;
+    @FXML
+    private Button registerConfirmButton;
 
     private HashMap<UserTable, User> userMap = new HashMap<>();
     private HashMap<User, UserTable> reverseUserMap = new HashMap<>();
@@ -146,6 +152,7 @@ public class AdminController extends BaseController implements Initializable, Pa
 
     private void refreshBookTab() {
         bookMap.clear();
+        reverseBookMap.clear();
         bookData.clear();
         for (Book book: ServiceFactory.getBookInfoService().getAllBooks()) {
             BookTable bt = new BookTable(book);
@@ -197,6 +204,10 @@ public class AdminController extends BaseController implements Initializable, Pa
                     new AlertBox().display("错误信息", "已经借阅该图书！");
                     return;
                 }
+                if (result == AddBookResult.NOT_AVAILABLE) {
+                    new AlertBox().display("错误信息", "该图书还未归还！");
+                    return;
+                }
                 bt.borrowerProperty().setValue("√");
                 UserBookTable ubt = new UserBookTable(toBorrow);
                 registerData.add(ubt);
@@ -205,6 +216,7 @@ public class AdminController extends BaseController implements Initializable, Pa
                 if (result == AddBookResult.NO_PERMISSION) {
                     ubt.setPermission(false);
                 }
+                adminTab.getSelectionModel().select(registerTab);
             }
         });
     }
@@ -212,6 +224,7 @@ public class AdminController extends BaseController implements Initializable, Pa
 
     private void refreshUserTab() {
         userMap.clear();
+        reverseUserMap.clear();
         userData.clear();
         for (User user: ServiceFactory.getUserInfoService().getAllUsers()) {
             UserTable ut = new UserTable(user);
@@ -261,9 +274,17 @@ public class AdminController extends BaseController implements Initializable, Pa
                     lut.idProperty().setValue(lut.idProperty().get().substring(1));
                 registerBorrowerLabel.setText(selected.getId());
                 ut.idProperty().setValue("√" + ut.idProperty().get());
-                borrowService.setUser(selected);
+                boolean permissionChanged = borrowService.setUser(selected);
                 checkNum();
-                checkPermissions();
+                if (permissionChanged)
+                    checkPermissions();
+                for (UserBookTable ubt: registerData) {
+                    Book book = registerMap.get(ubt);
+                    BorrowInfo info = book.getLastBorrow();
+                    if (info != null)
+                        ubt.setBorrow(info);
+                }
+                adminTab.getSelectionModel().select(registerTab);
             }
         });
     }
@@ -271,7 +292,9 @@ public class AdminController extends BaseController implements Initializable, Pa
 
     private void refreshRegisterTab() {
         registerMap.clear();
+        reverseRegisterMap.clear();
         registerData.clear();
+        registerBorrowerLabel.setText("");
         borrowService = ServiceFactory.getBorrowService();
     }
 
@@ -292,8 +315,37 @@ public class AdminController extends BaseController implements Initializable, Pa
                     return;
                 }
                 borrowService.remove(toDelete);
+                checkNum();
                 reverseBookMap.get(toDelete).borrowerProperty().setValue("");
                 registerData.remove(ubt);
+            }
+        });
+        registerConfirmButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (borrowService.getUser() == null) {
+                    new AlertBox().display("错误信息", "没有选择借阅者！");
+                    return;
+                }
+                if (registerData.size() == 0) {
+                    new AlertBox().display("错误信息", "没有选择图书！");
+                    return;
+                }
+                String warning = warningsLabel.getText();
+                Set<Book> noPermission = borrowService.getNoPermission();
+                if (warning.length() == 0 && noPermission.size() == 0) {
+                    borrowService.commit();
+                    new AlertBox().display("提示信息", "借阅成功！");
+                    refresh();
+                }
+                else {
+                    String errorMessage = "";
+                    if (warning.length() > 0)
+                        errorMessage += warning + System.lineSeparator();
+                    if (noPermission.size() > 0)
+                        errorMessage += "表中存在图书没有借阅权限！" + System.lineSeparator();
+                    new AlertBox().display("错误信息", errorMessage);
+                }
             }
         });
     }
