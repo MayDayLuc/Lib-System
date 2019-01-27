@@ -8,6 +8,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Book;
 import model.BorrowInfo;
+import model.Notification;
 import model.User;
 import service.BorrowService;
 import service.enums.AddBookResult;
@@ -129,6 +131,19 @@ public class AdminController extends BaseController implements Initializable, Pa
     @FXML
     private TableColumn<OverdueTable, Double> penaltyCol;
 
+    @FXML
+    private Tab notifyTab;
+    @FXML
+    private TableView<NotifyTable> notifyTable;
+    @FXML
+    private TableColumn<NotifyTable, String> notifyUserCol;
+    @FXML
+    private TableColumn<NotifyTable, String> notifyOperationCol;
+    @FXML
+    private TableColumn<NotifyTable, String> notifyTimeCol;
+    @FXML
+    private Button readNotificationButton;
+
     private HashMap<UserTable, User> userMap = new HashMap<>();
     private HashMap<User, UserTable> reverseUserMap = new HashMap<>();
     private ObservableList<UserTable> userData = FXCollections.observableArrayList();
@@ -137,22 +152,21 @@ public class AdminController extends BaseController implements Initializable, Pa
     private HashMap<Book, BookTable> reverseBookMap = new HashMap<>();
     private ObservableList<BookTable> bookData = FXCollections.observableArrayList();
 
-    private HashMap<BorrowTable, BorrowInfo> borrowMap = new HashMap<>();
     private ObservableList<BorrowTable> borrowData = FXCollections.observableArrayList();
 
     private HashMap<UserBookTable, Book> registerMap = new HashMap<>();
     private HashMap<Book, UserBookTable> reverseRegisterMap = new HashMap<>();
     private ObservableList<UserBookTable> registerData = FXCollections.observableArrayList();
 
-    private HashMap<OverdueTable, OverdueInfo> penaltyMap = new HashMap<>();
     private ObservableList<OverdueTable> penaltyData = FXCollections.observableArrayList();
 
+    private HashMap<NotifyTable, Notification> notifyMap = new HashMap<>();
+    private ObservableList<NotifyTable> notifyData = FXCollections.observableArrayList();
+
     private void refreshBorrowTable(List<BorrowInfo> borrowInfoList) {
-        borrowMap.clear();
         borrowData.clear();
         for (BorrowInfo borrowInfo: borrowInfoList){
             BorrowTable borrowT = new BorrowTable(borrowInfo);
-            borrowMap.put(borrowT,borrowInfo);
             borrowData.add(borrowT);
         }
     }
@@ -445,11 +459,9 @@ public class AdminController extends BaseController implements Initializable, Pa
 
 
     private void refreshPenaltyTab() {
-        penaltyMap.clear();
         penaltyData.clear();
         for (OverdueInfo info: ServiceFactory.getOverdueService().getPenaltyList()) {
             OverdueTable ot = new OverdueTable(info);
-            penaltyMap.put(ot, info);
             penaltyData.add(ot);
         }
     }
@@ -463,6 +475,43 @@ public class AdminController extends BaseController implements Initializable, Pa
         penaltyCol.setCellValueFactory(new PropertyValueFactory<>("penalty"));
     }
 
+
+    private void refreshNotifyTable() {
+        notifyMap.clear();
+        notifyData.clear();
+        for (Notification notification: ServiceFactory.getNotifyService().getAllNotifications()) {
+            NotifyTable nt = new NotifyTable(notification);
+            notifyMap.put(nt, notification);
+            notifyData.add(nt);
+        }
+    }
+
+    private void initNotifyTab() {
+        notifyTable.setItems(notifyData);
+        notifyUserCol.setCellValueFactory(new PropertyValueFactory<>("user"));
+        notifyOperationCol.setCellValueFactory(new PropertyValueFactory<>("operation"));
+        notifyTimeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
+        notifyTab.setOnSelectionChanged(new EventHandler<Event>() {
+            @Override
+            public void handle(Event event) {
+                refreshNotifyTable();
+            }
+        });
+        readNotificationButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                NotifyTable nt = notifyTable.getSelectionModel().getSelectedItem();
+                Notification toDelete = notifyMap.get(nt);
+                if (toDelete == null) {
+                    new AlertBox().display("错误信息", "请选择通知！");
+                    return;
+                }
+                ServiceFactory.getNotifyService().clearNotification(toDelete);
+                refreshNotifyTable();
+            }
+        });
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         refresh();
@@ -471,6 +520,7 @@ public class AdminController extends BaseController implements Initializable, Pa
         initBorrowTab();
         initRegisterTab();
         initPenaltyTab();
+        initNotifyTab();
     }
 
     private void checkNum() {
@@ -512,5 +562,6 @@ public class AdminController extends BaseController implements Initializable, Pa
         refreshBorrowTab();
         refreshRegisterTab();
         refreshPenaltyTab();
+        refreshNotifyTable();
     }
 }

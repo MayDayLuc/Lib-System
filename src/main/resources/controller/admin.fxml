@@ -195,6 +195,26 @@
                   </AnchorPane>
               </content>
             </Tab>
+            <Tab fx:id="notifyTab" text="通知消息">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="notifyTable" prefHeight="368.0" prefWidth="767.0">
+                           <columns>
+                              <TableColumn fx:id="notifyUserCol" prefWidth="195.0" text="用户" />
+                              <TableColumn fx:id="notifyOperationCol" prefWidth="318.0000305175781" text="操作" />
+                              <TableColumn fx:id="notifyTimeCol" prefWidth="252.6666259765625" text="时间" />
+                           </columns>
+                        </TableView>
+                        <Button fx:id="readNotificationButton" layoutX="651.0" layoutY="378.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="83.0" text="已阅" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="379.0">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
          </tabs>
       </TabPane>
    </children>

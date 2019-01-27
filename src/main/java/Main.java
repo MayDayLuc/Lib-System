@@ -7,6 +7,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.io.File;
+import java.net.URL;
+
 public class Main extends Application {
 
     @Override
@@ -21,6 +24,10 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+        File file = new File("target/classes/controller");
+        URL url = Main.class.getResource("");
+        System.out.println(file.getAbsolutePath());
+        System.out.println(url.getPath());
         ServiceFactory.setApplicationContext(new ClassPathXmlApplicationContext("applicationContext.xml"));
         launch(args);
     }

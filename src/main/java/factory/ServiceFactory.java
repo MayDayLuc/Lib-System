@@ -34,4 +34,8 @@ public class ServiceFactory {
     public static OverdueService getOverdueService() {
         return (OverdueService) applicationContext.getBean("overdueService");
     }
+
+    public static NotifyService getNotifyService() {
+        return (NotifyService) applicationContext.getBean("notifyService");
+    }
 }
