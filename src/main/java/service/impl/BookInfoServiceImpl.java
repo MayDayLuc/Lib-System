@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BookInfoService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,5 +42,18 @@ public class BookInfoServiceImpl implements BookInfoService {
     @Transactional
     public List<BookCategory> getAllBookCategories() {
         return bookCategoryDao.getAllBookCategories();
+    }
+
+    @Override
+    @Transactional
+    public List<Book> getKeyBooks(String key) {
+        if (key.length() == 0)
+            return getAllBooks();
+        List<Book> list = new ArrayList<>();
+        for (Book book: getAllBooks()) {
+            if (book.match(key))
+                list.add(book);
+        }
+        return list;
     }
 }

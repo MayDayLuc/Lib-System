@@ -24,6 +24,7 @@ import service.enums.AddBookResult;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -132,14 +133,22 @@ public class AdminController extends BaseController implements Initializable, Pa
     private HashMap<Book, UserBookTable> reverseRegisterMap = new HashMap<>();
     private ObservableList<UserBookTable> registerData = FXCollections.observableArrayList();
 
-    private void refreshBorrowTab(){
+    private void refreshBorrowTable(List<BorrowInfo> borrowInfoList) {
         borrowMap.clear();
         borrowData.clear();
-        for (BorrowInfo borrowInfo: ServiceFactory.getBorrowInfoService().getAllBorrowedBooks()){
+        for (BorrowInfo borrowInfo: borrowInfoList){
             BorrowTable borrowT = new BorrowTable(borrowInfo);
             borrowMap.put(borrowT,borrowInfo);
             borrowData.add(borrowT);
         }
+    }
+
+    private void refreshBorrowTab(){
+        refreshBorrowTable(ServiceFactory.getBorrowInfoService().getAllBorrowedBooks());
+    }
+
+    private void refreshSearchBorrowTab(String key) {
+        refreshBorrowTable(ServiceFactory.getBorrowInfoService().getKeyBorrow(key));
     }
 
     private void initBorrowTab(){
@@ -153,29 +162,33 @@ public class AdminController extends BaseController implements Initializable, Pa
         borrowSearchField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if(borrowSearchField.getText() != null){
-                    String borrowKey = borrowSearchField.getText();
-                    for(BorrowInfo borrowInfo: ServiceFactory.getBorrowInfoService().getKeyBorrow(borrowKey)){
-                        BorrowTable bt = new BorrowTable(borrowInfo);
-                        borrowMap.put(bt, borrowInfo);
-                        borrowData.add(bt);
-                    }
-                }
+                refreshSearchBorrowTab(borrowSearchField.getText());
+                refreshUserTab();
+                refreshBookTab();
+                refreshRegisterTab();
             }
         });
     }
 
 
-    private void refreshBookTab() {
+    private void refreshBookTable(List<Book> bookList) {
         bookMap.clear();
         reverseBookMap.clear();
         bookData.clear();
-        for (Book book: ServiceFactory.getBookInfoService().getAllBooks()) {
+        for (Book book: bookList) {
             BookTable bt = new BookTable(book);
             bookMap.put(bt, book);
             reverseBookMap.put(book, bt);
             bookData.add(bt);
         }
+    }
+
+    private void refreshBookTab() {
+        refreshBookTable(ServiceFactory.getBookInfoService().getAllBooks());
+    }
+
+    private void refreshSearchBookTab(String key) {
+        refreshBookTable(ServiceFactory.getBookInfoService().getKeyBooks(key));
     }
 
     private void initBookTab(){
@@ -239,32 +252,33 @@ public class AdminController extends BaseController implements Initializable, Pa
         bookSearchField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if(bookSearchField.getText() != null){
-                    String bookKey = bookSearchField.getText();
-                    bookMap.clear();
-                    bookData.clear();
-                    for (Book book: ServiceFactory.getBookInfoService().getKeyBooks(bookKey)) {
-                        BookTable bt = new BookTable(book);
-                        bookMap.put(bt, book);
-                        reverseBookMap.put(book, bt);
-                        bookData.add(bt);
-                    }
-                }
+                refreshSearchBookTab(bookSearchField.getText());
+                refreshUserTab();
+                refreshBorrowTab();
+                refreshRegisterTab();
             }
         });
     }
 
 
-    private void refreshUserTab() {
+    private void refreshUserTable(List<User> userList) {
         userMap.clear();
         reverseUserMap.clear();
         userData.clear();
-        for (User user: ServiceFactory.getUserInfoService().getAllUsers()) {
+        for (User user: userList) {
             UserTable ut = new UserTable(user);
             userMap.put(ut, user);
             reverseUserMap.put(user, ut);
             userData.add(ut);
         }
+    }
+
+    private void refreshUserTab() {
+        refreshUserTable(ServiceFactory.getUserInfoService().getAllUsers());
+    }
+
+    private void refreshSearchUserTab(String key) {
+        refreshUserTable(ServiceFactory.getUserInfoService().getKeyUsers(key));
     }
 
     private void initUserTab() {
@@ -324,17 +338,10 @@ public class AdminController extends BaseController implements Initializable, Pa
         userSearchField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if(userSearchField != null){
-                    String userKey = userSearchField.getText();
-                    userMap.clear();
-                    userData.clear();
-                    for (User user: ServiceFactory.getUserInfoService().getKeyUsers(userKey)) {
-                        UserTable ut = new UserTable(user);
-                        userMap.put(ut, user);
-                        reverseUserMap.put(user, ut);
-                        userData.add(ut);
-                    }
-                }
+                refreshSearchUserTab(userSearchField.getText());
+                refreshBookTab();
+                refreshBorrowTab();
+                refreshRegisterTab();
             }
         });
 

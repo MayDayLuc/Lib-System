@@ -46,4 +46,17 @@ public class UserInfoServiceImpl implements UserInfoService {
         }
         return users;
     }
+
+    @Override
+    @Transactional
+    public List<User> getKeyUsers(String key) {
+        if (key.length() == 0)
+            return getAllUsers();
+        List<User> list = new ArrayList<>();
+        for (User user: getAllUsers()) {
+            if (user.match(key))
+                list.add(user);
+        }
+        return list;
+    }
 }

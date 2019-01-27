@@ -63,4 +63,11 @@ public class BorrowInfo implements Serializable {
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
+
+    public boolean match(String key) {
+        return borrower.match(key)
+                || book.match(key)
+                || borrowDate.toString().contains(key)
+                || dueDate.toString().contains(key);
+    }
 }

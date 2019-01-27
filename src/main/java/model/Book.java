@@ -81,4 +81,10 @@ public class Book implements Serializable {
     public void setPermission(int permission) {
         this.permission = permission;
     }
+
+    public boolean match(String key) {
+        return ("" + id).contains(key)
+                || name.contains(key)
+                || category.getName().contains(key);
+    }
 }

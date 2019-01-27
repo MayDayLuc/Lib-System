@@ -81,4 +81,12 @@ public class User implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public boolean match(String key) {
+        return id.contains(key)
+                || name.contains(key)
+                || type.name().contains(key)
+                || phone.contains(key)
+                || email.contains(key);
+    }
 }

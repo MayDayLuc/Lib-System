@@ -42,4 +42,9 @@ public class BorrowInfoServiceMock implements BorrowInfoService {
     public List<BorrowInfo> getAllBorrowedBooks() {
         return null;
     }
+
+    @Override
+    public List<BorrowInfo> getKeyBorrow(String key) {
+        return null;
+    }
 }

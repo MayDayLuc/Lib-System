@@ -39,4 +39,16 @@ public class BorrowInfoServiceImpl implements BorrowInfoService {
     public List<BorrowInfo> getAllBorrowedBooks() {
         return borrowInfoDao.getAllBorrowInfos();
     }
+
+    @Override
+    public List<BorrowInfo> getKeyBorrow(String key) {
+        if (key.length() == 0)
+            return getAllBorrowedBooks();
+        List<BorrowInfo> list = new ArrayList<>();
+        for (BorrowInfo info: getAllBorrowedBooks()) {
+            if (info.match(key))
+                list.add(info);
+        }
+        return list;
+    }
 }
