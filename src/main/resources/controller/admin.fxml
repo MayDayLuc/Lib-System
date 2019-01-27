@@ -191,11 +191,6 @@
                               <TableColumn fx:id="penaltyCol" prefWidth="91.0" text="罚款金额" />
                           </columns>
                         </TableView>
-                        <Button fx:id="penaltyButton" layoutX="651.0" layoutY="378.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="83.0" text="清除" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="379.0">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Button>
                      </children>
                   </AnchorPane>
               </content>

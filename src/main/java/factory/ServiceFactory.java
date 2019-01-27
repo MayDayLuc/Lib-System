@@ -30,4 +30,8 @@ public class ServiceFactory {
     public static BorrowService getBorrowService () {
         return (BorrowService) applicationContext.getBean("borrowService");
     }
+
+    public static OverdueService getOverdueService() {
+        return (OverdueService) applicationContext.getBean("overdueService");
+    }
 }

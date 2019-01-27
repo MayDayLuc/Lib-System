@@ -10,4 +10,6 @@ public interface BorrowInfoService {
     public int getBorrowedCnt(String uid);
     public List<BorrowInfo> getAllBorrowedBooks();
     public List<BorrowInfo> getKeyBorrow(String key);
+
+    public void returnBook(Book toReturn);
 }

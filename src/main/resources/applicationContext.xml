@@ -45,4 +45,5 @@
     <bean id="bookInfoService" class="service.impl.BookInfoServiceImpl"/>
     <bean id="borrowInfoService" class="service.impl.BorrowInfoServiceImpl"/>
     <bean id="borrowService" class="service.impl.BorrowServiceImpl" scope="prototype"/>
+    <bean id="overdueService" class="service.impl.OverdueServiceImpl"/>
 </beans>

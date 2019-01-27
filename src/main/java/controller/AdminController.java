@@ -1,9 +1,6 @@
 package controller;
 
-import controller.table.BookTable;
-import controller.table.BorrowTable;
-import controller.table.UserBookTable;
-import controller.table.UserTable;
+import controller.table.*;
 import controller.utils.*;
 import factory.ServiceFactory;
 import javafx.beans.value.ChangeListener;
@@ -21,6 +18,7 @@ import model.BorrowInfo;
 import model.User;
 import service.BorrowService;
 import service.enums.AddBookResult;
+import service.utils.OverdueInfo;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -118,6 +116,19 @@ public class AdminController extends BaseController implements Initializable, Pa
     @FXML
     private Button registerConfirmButton;
 
+    @FXML
+    private TableView<OverdueTable> penaltyTable;
+    @FXML
+    private TableColumn<OverdueTable, Integer> penaltyBookIDCol;
+    @FXML
+    private TableColumn<OverdueTable, String> penaltyBookNameCol;
+    @FXML
+    private TableColumn<OverdueTable, String> penaltyUserCol;
+    @FXML
+    private TableColumn<OverdueTable, Integer> penaltyDateCol;
+    @FXML
+    private TableColumn<OverdueTable, Double> penaltyCol;
+
     private HashMap<UserTable, User> userMap = new HashMap<>();
     private HashMap<User, UserTable> reverseUserMap = new HashMap<>();
     private ObservableList<UserTable> userData = FXCollections.observableArrayList();
@@ -132,6 +143,9 @@ public class AdminController extends BaseController implements Initializable, Pa
     private HashMap<UserBookTable, Book> registerMap = new HashMap<>();
     private HashMap<Book, UserBookTable> reverseRegisterMap = new HashMap<>();
     private ObservableList<UserBookTable> registerData = FXCollections.observableArrayList();
+
+    private HashMap<OverdueTable, OverdueInfo> penaltyMap = new HashMap<>();
+    private ObservableList<OverdueTable> penaltyData = FXCollections.observableArrayList();
 
     private void refreshBorrowTable(List<BorrowInfo> borrowInfoList) {
         borrowMap.clear();
@@ -246,6 +260,27 @@ public class AdminController extends BaseController implements Initializable, Pa
                     ubt.setPermission(false);
                 }
                 adminTab.getSelectionModel().select(registerTab);
+            }
+        });
+
+        backBookButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                BookTable bt = bookTable.getSelectionModel().getSelectedItem();
+                Book toReturn = bookMap.get(bt);
+                if (toReturn == null) {
+                    new AlertBox().display("错误信息", "请选择需要归还的图书！");
+                    return;
+                }
+                if (toReturn.isAvailable()) {
+                    new AlertBox().display("错误信息", "请选择还未归还的图书！");
+                    return;
+                }
+                if (ServiceFactory.getOverdueService().checkOverDue(toReturn)
+                || new ConfirmBox().display("确认信息", "该图书已超期， 是否已缴纳罚金？")) {
+                    ServiceFactory.getBorrowInfoService().returnBook(toReturn);
+                    refresh();
+                }
             }
         });
 
@@ -408,6 +443,26 @@ public class AdminController extends BaseController implements Initializable, Pa
         });
     }
 
+
+    private void refreshPenaltyTab() {
+        penaltyMap.clear();
+        penaltyData.clear();
+        for (OverdueInfo info: ServiceFactory.getOverdueService().getPenaltyList()) {
+            OverdueTable ot = new OverdueTable(info);
+            penaltyMap.put(ot, info);
+            penaltyData.add(ot);
+        }
+    }
+
+    private void initPenaltyTab() {
+        penaltyTable.setItems(penaltyData);
+        penaltyBookIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        penaltyBookNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        penaltyUserCol.setCellValueFactory(new PropertyValueFactory<>("borrower"));
+        penaltyDateCol.setCellValueFactory(new PropertyValueFactory<>("days"));
+        penaltyCol.setCellValueFactory(new PropertyValueFactory<>("penalty"));
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         refresh();
@@ -415,6 +470,7 @@ public class AdminController extends BaseController implements Initializable, Pa
         initBookTab();
         initBorrowTab();
         initRegisterTab();
+        initPenaltyTab();
     }
 
     private void checkNum() {
@@ -455,5 +511,6 @@ public class AdminController extends BaseController implements Initializable, Pa
         refreshBookTab();
         refreshBorrowTab();
         refreshRegisterTab();
+        refreshPenaltyTab();
     }
 }

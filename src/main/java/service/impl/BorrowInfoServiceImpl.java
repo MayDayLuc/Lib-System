@@ -1,5 +1,6 @@
 package service.impl;
 
+import dao.BookDao;
 import dao.BorrowInfoDao;
 import model.Book;
 import model.BorrowInfo;
@@ -16,6 +17,8 @@ import java.util.List;
 public class BorrowInfoServiceImpl implements BorrowInfoService {
     @Autowired
     private BorrowInfoDao borrowInfoDao;
+    @Autowired
+    private BookDao bookDao;
 
     @Override
     @Transactional
@@ -41,6 +44,7 @@ public class BorrowInfoServiceImpl implements BorrowInfoService {
     }
 
     @Override
+    @Transactional
     public List<BorrowInfo> getKeyBorrow(String key) {
         if (key.length() == 0)
             return getAllBorrowedBooks();
@@ -50,5 +54,13 @@ public class BorrowInfoServiceImpl implements BorrowInfoService {
                 list.add(info);
         }
         return list;
+    }
+
+    @Override
+    @Transactional
+    public void returnBook(Book book) {
+        book.setAvailable(true);
+        book.setLastBorrow(null);
+        bookDao.updateBook(book);
     }
 }
