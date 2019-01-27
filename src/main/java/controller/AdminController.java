@@ -30,6 +30,8 @@ import java.util.Set;
 
 public class AdminController extends BaseController implements Initializable, Parental {
     @FXML
+    private Button logoutButton;
+    @FXML
     private Label adminLabel;
     @FXML
     private TabPane adminTab;
@@ -514,6 +516,12 @@ public class AdminController extends BaseController implements Initializable, Pa
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        logoutButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Transformer.jump(stage, this, "login.fxml", null);
+            }
+        });
         refresh();
         initUserTab();
         initBookTab();

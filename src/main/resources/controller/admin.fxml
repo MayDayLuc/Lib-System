@@ -15,7 +15,7 @@
 
 <AnchorPane prefHeight="556.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminController">
    <children>
-      <ImageView fitHeight="556.0" fitWidth="900.0">
+      <ImageView fitHeight="556.0" fitWidth="900.0" layoutX="-11.0">
          <image>
             <Image url="@background.jpg" />
          </image>
@@ -215,7 +215,29 @@
                   </AnchorPane>
                </content>
             </Tab>
+            <Tab fx:id="adminPermissionTab" text="权限管理">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="adminPermissionTable" prefHeight="368.0" prefWidth="767.0">
+                           <columns>
+                              <TableColumn fx:id="adminType" prefWidth="271.33336639404297" text="管理员类型" />
+                              <TableColumn fx:id="adminPermissionCreateUser" prefWidth="175.33331298828125" text="创建用户权限" />
+                              <TableColumn fx:id="adminPermissionCreateUser1" minWidth="0.0" prefWidth="172.66665649414062" text="编辑用户权限" />
+                              <TableColumn fx:id="adminPermissionSearchUser" minWidth="0.0" prefWidth="148.0" text="搜索用户权限" />
+                           </columns>
+                        </TableView>
+                        <Button fx:id="readNotificationButton1" layoutX="651.0" layoutY="378.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="83.0" text="已阅" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="379.0">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
          </tabs>
       </TabPane>
+      <Button fx:id="logoutButton" layoutX="39.0" layoutY="31.0" mnemonicParsing="false" text="登出" />
    </children>
 </AnchorPane>

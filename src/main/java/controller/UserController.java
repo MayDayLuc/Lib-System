@@ -3,6 +3,7 @@ package controller;
 import controller.table.UserBookTable;
 import controller.utils.AlertBox;
 import controller.utils.BaseController;
+import controller.utils.Transformer;
 import factory.ServiceFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,6 +33,8 @@ import java.util.Set;
 import static model.enums.UserType.transform;
 
 public class UserController extends BaseController implements Initializable {
+    @FXML
+    private Button logoutButton;
     @FXML
     private Label userType;
     @FXML
@@ -92,6 +95,14 @@ public class UserController extends BaseController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        logoutButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Transformer.jump(stage, this, "login.fxml", null);
+            }
+        });
+
         bookTable.setItems(data);
         bookIDCol.setCellValueFactory(new PropertyValueFactory<>("bookId"));
         bookNameCol.setCellValueFactory(new PropertyValueFactory<>("bookName"));
