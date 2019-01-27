@@ -30,7 +30,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TabPane fx:id="adminTab" layoutX="67.0" layoutY="67.0" prefHeight="483.0" prefWidth="767.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="adminTab" layoutX="57.0" layoutY="67.0" prefHeight="483.0" prefWidth="777.0" tabClosingPolicy="UNAVAILABLE">
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor>
@@ -39,7 +39,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="userTable" prefHeight="368.0" prefWidth="767.0">
+                        <TableView fx:id="userTable" prefHeight="376.0" prefWidth="767.0">
                            <columns>
                               <TableColumn fx:id="userIDCol" prefWidth="165.0" text="用户编号" />
                               <TableColumn fx:id="userNameCol" prefWidth="119.0" text="用户名" />
@@ -77,7 +77,7 @@
                <content>
                   <AnchorPane fx:id="bookPane" minHeight="0.0" minWidth="0.0" prefHeight="446.0" prefWidth="767.0">
                      <children>
-                        <TableView fx:id="bookTable" prefHeight="368.0" prefWidth="767.0">
+                        <TableView fx:id="bookTable" prefHeight="376.0" prefWidth="767.0">
                            <columns>
                               <TableColumn fx:id="bookIDCol" prefWidth="118.0" text="图书编号" />
                               <TableColumn fx:id="bookNameCol" prefWidth="118.0" text="图书名" />
@@ -121,7 +121,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="registerTable" prefHeight="368.0" prefWidth="767.0">
+                        <TableView fx:id="registerTable" prefHeight="375.0" prefWidth="767.0">
                            <columns>
                               <TableColumn fx:id="registerBookIDCol" prefWidth="149.0" text="图书编号" />
                               <TableColumn fx:id="registerBookNameCol" prefWidth="153.0" text="图书名" />
@@ -159,7 +159,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="borrowTable" prefHeight="369.0" prefWidth="767.0">
+                        <TableView fx:id="borrowTable" prefHeight="375.0" prefWidth="767.0">
                           <columns>
                             <TableColumn fx:id="borrowBookIDCol" prefWidth="160.0" text="图书ID" />
                             <TableColumn fx:id="borrowBookNameCol" minWidth="3.0" prefWidth="129.0" text="图书名" />
@@ -182,7 +182,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="penaltyTable" prefHeight="368.0" prefWidth="767.0">
+                        <TableView fx:id="penaltyTable" prefHeight="378.0" prefWidth="767.0">
                           <columns>
                             <TableColumn fx:id="penaltyBookIDCol" prefWidth="195.0" text="图书编号" />
                             <TableColumn fx:id="penaltyBookNameCol" prefWidth="182.0" text="图书名" />
@@ -199,7 +199,7 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="notifyTable" prefHeight="368.0" prefWidth="767.0">
+                        <TableView fx:id="notifyTable" prefHeight="378.0" prefWidth="767.0">
                            <columns>
                               <TableColumn fx:id="notifyUserCol" prefWidth="195.0" text="用户" />
                               <TableColumn fx:id="notifyOperationCol" prefWidth="318.0000305175781" text="操作" />
@@ -219,7 +219,7 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="adminPermissionTable" prefHeight="368.0" prefWidth="767.0">
+                        <TableView fx:id="adminPermissionTable" prefHeight="377.0" prefWidth="767.0">
                            <columns>
                               <TableColumn fx:id="adminType" prefWidth="271.33336639404297" text="管理员类型" />
                               <TableColumn fx:id="adminPermissionCreateUser" prefWidth="175.33331298828125" text="创建用户权限" />
@@ -227,7 +227,7 @@
                               <TableColumn fx:id="adminPermissionSearchUser" minWidth="0.0" prefWidth="148.0" text="搜索用户权限" />
                            </columns>
                         </TableView>
-                        <Button fx:id="readNotificationButton1" layoutX="651.0" layoutY="378.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="83.0" text="已阅" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="379.0">
+                        <Button fx:id="adminPermissionConfirmButton" layoutX="651.0" layoutY="378.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="83.0" text="确认" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="379.0">
                            <font>
                               <Font size="16.0" />
                            </font>

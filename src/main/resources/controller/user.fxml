@@ -40,7 +40,7 @@
             <content>
               <AnchorPane fx:id="bookPane" minHeight="0.0" minWidth="0.0" prefHeight="446.0" prefWidth="767.0">
                      <children>
-                        <TableView fx:id="bookTable" prefHeight="368.0" prefWidth="767.0">
+                        <TableView fx:id="bookTable" prefHeight="376.0" prefWidth="767.0">
                            <columns>
                               <TableColumn fx:id="bookIDCol" prefWidth="149.0" text="图书编号" />
                               <TableColumn fx:id="bookNameCol" prefWidth="153.0" text="图书名" />
